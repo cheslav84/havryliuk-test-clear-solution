@@ -13,8 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import static com.havryliuk.test.users.swager.Constants.SERVER_ERROR;
-import static com.havryliuk.test.users.swager.Constants.USER_CREATED_HEADER_DESCRIPTION;
+import static com.havryliuk.test.users.util.GlobalConstants.SERVER_ERROR;
+import static com.havryliuk.test.users.util.GlobalConstants.USER_CREATED_HEADER_DESCRIPTION;
 import static com.havryliuk.test.users.swager.ErrorResponseConstants.LONG_DATA;
 import static com.havryliuk.test.users.swager.ErrorResponseConstants.USER_AGE_RESTRICTION;
 import static com.havryliuk.test.users.swager.ErrorResponseConstants.USER_REQUIRED;
@@ -22,7 +22,8 @@ import static com.havryliuk.test.users.swager.ErrorResponseConstants.NOT_VALID_E
 
 public interface UserControllerSwaggerDescriptor {
 
-    @Tag(name = "Cards Orders")
+    @SuppressWarnings("unused")
+    @Tag(name = "Creating user")
     @Operation(summary = "Create new user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created", headers = {@Header(name = "Location",

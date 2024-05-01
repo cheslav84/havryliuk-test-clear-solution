@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import static com.havryliuk.test.users.swager.Constants.SERVER_ERROR_MESSAGE;
+import static com.havryliuk.test.users.util.GlobalConstants.SERVER_ERROR_MESSAGE;
 
 
 @Slf4j
@@ -59,8 +59,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         GeneralErrorResponse errorResponse = ResponseUtil.generateResponse(ex.getReason(), statusCode, request);
         return new ResponseEntity<>(errorResponse, ex.getStatusCode());
     }
-
-
 
 
     @ExceptionHandler(Exception.class)

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.havryliuk.test.users.util.GlobalConstants.LOCATION_HEADER;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class UserController implements UserControllerSwaggerDescriptor {
     public void createUser(@Valid @RequestBody UserCreationDto user, HttpServletResponse response) {
         log.info("POST /v1/users");
         String id = userService.create(user);
-        response.addHeader("location", "/v1/users/" + id);
+        response.addHeader(LOCATION_HEADER, "/v1/users/" + id);
     }
 
 

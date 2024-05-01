@@ -8,38 +8,43 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-import static com.havryliuk.test.users.swager.Constants.EMAIL_EXAMPLE;
-import static com.havryliuk.test.users.valitator.ValidatorConstants.BIRTH_DATE_REQUIRED;
+import static com.havryliuk.test.users.util.GlobalConstants.BIRTH_DATE;
+import static com.havryliuk.test.users.util.GlobalConstants.EMAIL;
+import static com.havryliuk.test.users.util.GlobalConstants.FIRST_NAME;
+import static com.havryliuk.test.users.util.GlobalConstants.LAST_NAME;
+import static com.havryliuk.test.users.util.GlobalConstants.PHONE_NUMBER;
 import static com.havryliuk.test.users.valitator.ValidatorConstants.FIRST_NAME_REQUIRED;
 import static com.havryliuk.test.users.valitator.ValidatorConstants.INCORRECT_PHONE_NUMBER;
 import static com.havryliuk.test.users.valitator.ValidatorConstants.LAST_NAME_REQUIRED;
 import static com.havryliuk.test.users.valitator.ValidatorConstants.PHONE_PATTERN;
 
-record UserDto (
+@Builder
+public record UserDto (
     @ValidEmail
-    @Schema(example = EMAIL_EXAMPLE)
+    @Schema(example = EMAIL)
     String email,
 
     @NotNull(message = FIRST_NAME_REQUIRED)
     @Size(max = 32, message = "First name should be maximum 32 characters long")
-    @Schema(example = "FirstName")
+    @Schema(example = FIRST_NAME)
     String firstName,
 
     @NotNull(message = LAST_NAME_REQUIRED)
     @Size(max = 32, message = "Last name should be maximum 32 characters long")
-    @Schema(example = "Lastname")
+    @Schema(example = LAST_NAME)
     String lastName,
 
     @ValidAge
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @Schema(example = "2006-05-01")
+    @Schema(example = BIRTH_DATE)
     LocalDate birthDate,
 
-    @Schema(example = "+380961114545")
+    @Schema(example = PHONE_NUMBER)
     @Pattern(regexp = PHONE_PATTERN, message = INCORRECT_PHONE_NUMBER)
     String phoneNumber,
 
