@@ -4,6 +4,7 @@ import com.havryliuk.test.users.exception.UserRegistrationRestrictionExceptions;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Value;
+
 import java.time.LocalDate;
 
 public class UserAgeValidator implements ConstraintValidator<ValidAge, LocalDate> {
@@ -17,6 +18,10 @@ public class UserAgeValidator implements ConstraintValidator<ValidAge, LocalDate
 
     @Override
     public boolean isValid(LocalDate birthDate, ConstraintValidatorContext context) {
+        if (birthDate == null) {
+            return false;
+        }
+
         boolean isRegistrationAllowed = LocalDate.now()
                 .minusYears(ALLOWED_AGE_T0_REGISTER)
                 .plusDays(1L)
@@ -27,11 +32,4 @@ public class UserAgeValidator implements ConstraintValidator<ValidAge, LocalDate
         return true;
     }
 
-//    private void setMessageIfNotValid(ConstraintValidatorContext context, boolean isRegistrationAllowed) {
-//        if (!isRegistrationAllowed) {
-//            context.buildConstraintViolationWithTemplate(String.format(USER_AGE_ERROR_MESSAGE, ALLOWED_AGE_T0_REGISTER))
-//                    .addConstraintViolation()
-//                    .disableDefaultConstraintViolation();
-//        }
-//    }
 }

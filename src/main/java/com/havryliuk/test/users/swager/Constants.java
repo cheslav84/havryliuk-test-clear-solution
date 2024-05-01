@@ -17,7 +17,6 @@ public class Constants {
         public static final String MESSAGE_TIME = "2022-04-16T23:07:59.441143700Z";
         public static final String STATUS = "500";
         public static final String ERROR = "BAD_REQUEST";
-//        public static final String MESSAGE_ERROR = "Operation completed unsuccessfully";
         public static final String PATH = "/endpoint-with-exceptions";
         public static final String SERVER_ERROR = "Internal server error";
         public static final String SERVER_ERROR_MESSAGE = "Something went wrong. Try please later";

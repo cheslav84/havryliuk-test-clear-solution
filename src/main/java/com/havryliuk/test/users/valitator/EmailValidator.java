@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 import static com.havryliuk.test.users.valitator.ValidatorConstants.EMAIL_REQUIRED;
 import static com.havryliuk.test.users.valitator.ValidatorConstants.LONG_EMAIL;
 import static com.havryliuk.test.users.valitator.ValidatorConstants.NOT_VALID_EMAIL;
-import static com.havryliuk.test.users.valitator.ValidatorConstants.EMAIL_REGEX;
+import static com.havryliuk.test.users.valitator.ValidatorConstants.EMAIL_PATTERN;
 
 public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 
@@ -28,7 +28,7 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
             context.buildConstraintViolationWithTemplate(LONG_EMAIL).addConstraintViolation();
             isValid = false;
         }
-        if (!Pattern.compile(EMAIL_REGEX).matcher(email).matches()) {
+        if (!Pattern.compile(EMAIL_PATTERN).matcher(email).matches()) {
             context.buildConstraintViolationWithTemplate(NOT_VALID_EMAIL).addConstraintViolation();
             isValid = false;
         }
