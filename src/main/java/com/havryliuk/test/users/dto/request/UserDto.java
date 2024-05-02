@@ -18,9 +18,9 @@ import static com.havryliuk.test.users.util.GlobalConstants.EMAIL;
 import static com.havryliuk.test.users.util.GlobalConstants.FIRST_NAME;
 import static com.havryliuk.test.users.util.GlobalConstants.LAST_NAME;
 import static com.havryliuk.test.users.util.GlobalConstants.PHONE_NUMBER;
-import static com.havryliuk.test.users.valitator.ValidatorConstants.FIRST_NAME_REQUIRED;
+import static com.havryliuk.test.users.valitator.ValidatorConstants.LONG_PROPERTY_32;
+import static com.havryliuk.test.users.valitator.ValidatorConstants.PROPERTY_REQUIRED;
 import static com.havryliuk.test.users.valitator.ValidatorConstants.INCORRECT_PHONE_NUMBER;
-import static com.havryliuk.test.users.valitator.ValidatorConstants.LAST_NAME_REQUIRED;
 import static com.havryliuk.test.users.valitator.ValidatorConstants.PHONE_PATTERN;
 
 @Builder
@@ -29,13 +29,13 @@ public record UserDto (
     @Schema(example = EMAIL)
     String email,
 
-    @NotNull(message = FIRST_NAME_REQUIRED)
-    @Size(max = 32, message = "First name should be maximum 32 characters long")
+    @NotNull(message = PROPERTY_REQUIRED)
+    @Size(max = 32, message = LONG_PROPERTY_32)
     @Schema(example = FIRST_NAME)
     String firstName,
 
-    @NotNull(message = LAST_NAME_REQUIRED)
-    @Size(max = 32, message = "Last name should be maximum 32 characters long")
+    @NotNull(message = PROPERTY_REQUIRED)
+    @Size(max = 32, message = LONG_PROPERTY_32)
     @Schema(example = LAST_NAME)
     String lastName,
 

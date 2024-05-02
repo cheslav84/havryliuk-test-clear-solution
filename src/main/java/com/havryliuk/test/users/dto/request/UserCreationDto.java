@@ -4,11 +4,11 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
-import static com.havryliuk.test.users.valitator.ValidatorConstants.DATA_REQUIRED;
+import static com.havryliuk.test.users.valitator.ValidatorConstants.PROPERTY_REQUIRED;
 
 @Builder
 public record UserCreationDto (
-        @NotNull(message = DATA_REQUIRED)
+        @NotNull(message = PROPERTY_REQUIRED)
         @Valid
         UserDto data
 ) {}

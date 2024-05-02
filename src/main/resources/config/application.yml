@@ -24,5 +24,5 @@ constants:
   allowed-age-to-register: 18
 ---
 #server:
-#  error:
-#    include-message: on_param
+#  title:
+#    include-detail: on_param

@@ -84,5 +84,46 @@ public class DtoCreator {
     }
 
 
+    public static UserCreationDto createInvalidUserCreationDtoWithEmptyData() {
+        return UserCreationDto.builder()
+                .build();
+    }
 
+    public static UserCreationDto createInvalidUserCreationDtoWithoutAllRequiredFields() {
+        return UserCreationDto.builder()
+                .data(UserDto.builder().build())
+                .build();
+    }
+
+    public static UserCreationDto createInvalidUserCreationDtoWithoutBirthDateAndWrongEmail() {
+        return UserCreationDto.builder()
+                .data(UserDto.builder()
+                        .email("wrong.email")
+                        .firstName("Name")
+                        .lastName("Surname")
+                        .build())
+                .build();
+    }
+
+    public static UserCreationDto createInvalidUserCreationDtoWithWrongAge() {
+        return UserCreationDto.builder()
+                .data(UserDto.builder()
+                        .email("domain@email.com")
+                        .firstName("Name")
+                        .lastName("Surname")
+                        .birthDate(LocalDate.parse("2020-05-02"))
+                        .build())
+                .build();
+    }
+
+    public static UserCreationDto createInvalidUserCreationDtoWithLongName() {
+        return UserCreationDto.builder()
+                .data(UserDto.builder()
+                        .email("domain@email.com")
+                        .firstName("VeeeeeeeeeeeeeeerryyyyylooooongNaaaaaameeeeeeeeeeeeeee")
+                        .lastName("Surname")
+                        .birthDate(LocalDate.parse("1980-01-01"))
+                        .build())
+                .build();
+    }
 }

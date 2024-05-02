@@ -1,6 +1,10 @@
 package com.havryliuk.test.users.util;
 
 public class GlobalConstants {
+    /**
+     * URL
+     */
+    public static final String USER_CREATION_URL = "/v1/users";
 
     /**
      * Header keys
@@ -24,13 +28,14 @@ public class GlobalConstants {
      * Swagger descriptions
      */
     public static final String USER_CREATED_HEADER_DESCRIPTION = "location: /v1/users/{id}";
-    public static final String SERVER_ERROR = "Internal server error";
+    public static final String SERVER_ERROR = "Internal server title";
     public static final String SERVER_ERROR_MESSAGE = "Something went wrong. Try please later";
 
 
-
-
-
+    /**
+     * Errors
+     */
+    public static final String INCORRECT_JSON = "JSON parse error";
 
 
 }

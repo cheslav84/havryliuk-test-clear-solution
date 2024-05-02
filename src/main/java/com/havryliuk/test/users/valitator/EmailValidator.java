@@ -5,8 +5,8 @@ import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.regex.Pattern;
 
-import static com.havryliuk.test.users.valitator.ValidatorConstants.EMAIL_REQUIRED;
-import static com.havryliuk.test.users.valitator.ValidatorConstants.LONG_EMAIL;
+import static com.havryliuk.test.users.valitator.ValidatorConstants.PROPERTY_REQUIRED;
+import static com.havryliuk.test.users.valitator.ValidatorConstants.LONG_PROPERTY_32;
 import static com.havryliuk.test.users.valitator.ValidatorConstants.NOT_VALID_EMAIL;
 import static com.havryliuk.test.users.valitator.ValidatorConstants.EMAIL_PATTERN;
 
@@ -21,11 +21,11 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
         boolean isValid = true;
 
         if (email == null) {
-            context.buildConstraintViolationWithTemplate(EMAIL_REQUIRED).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(PROPERTY_REQUIRED).addConstraintViolation();
             return false;
         }
         if (email.length() > 32) {
-            context.buildConstraintViolationWithTemplate(LONG_EMAIL).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(LONG_PROPERTY_32).addConstraintViolation();
             isValid = false;
         }
         if (!Pattern.compile(EMAIL_PATTERN).matcher(email).matches()) {
