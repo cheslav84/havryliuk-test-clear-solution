@@ -27,7 +27,6 @@ public class DataProvider {
                 Arguments.of(withoutAddress),
                 Arguments.of(withAddressWithoutCountry),
                 Arguments.of(withOnlyRequiredFields)
-
         );
     }
     public static Stream<Arguments> provideInvalidUserCreationDtos() {
@@ -54,9 +53,8 @@ public class DataProvider {
         String[] nameCause = {LONG_PROPERTY_32};
 
         UserCreationDto wrongAge = DtoCreator.createInvalidUserCreationDtoWithWrongAge();
-        String[] birthdateProperties = {"users"};
+        String[] birthdateProperties = {"user"};
         String[] birthdateCause = {String.format(USER_AGE_ERROR_MESSAGE, ALLOWED_AGE_T0_REGISTER)};
-
 
         return Stream.of(
                 Arguments.of(emptyData, oneError, badRequest, dataProperties, requiredCause, emptyMessages),
@@ -64,7 +62,6 @@ public class DataProvider {
                 Arguments.of(withoutBirthDateAndWrongEmail, twoErrors, badRequest, birthDateAndEmailProperties, birthDateAndEmailCauses, emptyMessages),
                 Arguments.of(longName, oneError, badRequest, nameProperties, nameCause, emptyMessages),
                 Arguments.of(wrongAge, oneError, forbidden, birthdateProperties, birthdateCause, emptyMessages)
-
         );
     }
 
