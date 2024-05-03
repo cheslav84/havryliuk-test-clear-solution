@@ -54,7 +54,7 @@ public class DataProvider {
         String[] nameCause = {LONG_PROPERTY_32};
 
         UserCreationDto wrongAge = DtoCreator.createInvalidUserCreationDtoWithWrongAge();
-        String[] birthdateProperties = {"user"};
+        String[] birthdateProperties = {"users"};
         String[] birthdateCause = {String.format(USER_AGE_ERROR_MESSAGE, ALLOWED_AGE_T0_REGISTER)};
 
 
