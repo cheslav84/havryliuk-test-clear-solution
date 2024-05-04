@@ -5,10 +5,10 @@ public class GlobalConstants {
     /**
      * URL
      */
-    public static final String USERS_URL = "/v1/users";
-    public static final String USERS_URL_ID = "/v1/users/{id}";
+    public static final String USERS_URL = "/api/v1/users";
+    public static final String USERS_URL_ID = "/api/v1/users/{id}";
 
-    
+
     /**
      * Header keys
      */
@@ -26,14 +26,14 @@ public class GlobalConstants {
      */
     public static final String USER_FIELD = "user";
     public static final String EMAIL_FIELD = "email";
-    public static final String FIRST_NAME_FIELD = "firstName";
-    public static final String LAST_NAME_FIELD = "lastName";
-    public static final String PHONE_NUMBER_FIELD = "phoneNumber";
-    public static final String BIRTH_DATE_FIELD = "birthDate";
-    public static final String COUNTRY_FIELD = "country";
-    public static final String CITY_FIELD = "city";
-    public static final String STREET_FIELD = "street";
-    public static final String ZEEP_CODE_FIELD = "zipcode";
+//    public static final String FIRST_NAME_FIELD = "firstName";
+//    public static final String LAST_NAME_FIELD = "lastName";
+//    public static final String PHONE_NUMBER_FIELD = "phoneNumber";
+//    public static final String BIRTH_DATE_FIELD = "birthDate";
+//    public static final String COUNTRY_FIELD = "country";
+//    public static final String CITY_FIELD = "city";
+//    public static final String STREET_FIELD = "street";
+//    public static final String ZEEP_CODE_FIELD = "zipcode";
 
 
     /**

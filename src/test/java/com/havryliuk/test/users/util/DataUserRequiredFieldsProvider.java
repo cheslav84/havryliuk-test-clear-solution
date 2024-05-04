@@ -12,15 +12,16 @@ import static com.havryliuk.test.users.util.GlobalConstants.NOT_VALID_EMAIL;
 import static com.havryliuk.test.users.util.GlobalConstants.PROPERTY_REQUIRED;
 import static com.havryliuk.test.users.util.GlobalConstants.USER_AGE_ERROR_MESSAGE;
 
-public class DataUserCreationProvider {
+public class DataUserRequiredFieldsProvider {
     public static final Long ALLOWED_AGE_T0_REGISTER = 18L;
 
-    private static Stream<Arguments> provideValidUserCreationDtos() {
-        DataUserDto withAllData = DtoCreator.createValidUserCreationDtoWithAllData();
-        DataUserDto withoutPhone = DtoCreator.createValidUserCreationDtoWithoutPhone();
-        DataUserDto withoutAddress = DtoCreator.createValidUserCreationDtoWithoutAddress();
-        DataUserDto withAddressWithoutCountry = DtoCreator.createValidUserCreationDtoAddressWithoutCountry();
-        DataUserDto withOnlyRequiredFields = DtoCreator.createValidUserCreationDtoWithOnlyRequiredFields();
+    @SuppressWarnings("unused")
+    private static Stream<Arguments> provideValidUserDtos() {
+        DataUserDto withAllData = DtoCreator.createValidUserDtoWithAllData();
+        DataUserDto withoutPhone = DtoCreator.createValidUserDtoWithoutPhone();
+        DataUserDto withoutAddress = DtoCreator.createValidUserDtoWithoutAddress();
+        DataUserDto withAddressWithoutCountry = DtoCreator.createValidUserDtoAddressWithoutCountry();
+        DataUserDto withOnlyRequiredFields = DtoCreator.createValidUserDtoWithOnlyRequiredFields();
         return Stream.of(
                 Arguments.of(withAllData),
                 Arguments.of(withoutPhone),
@@ -30,30 +31,31 @@ public class DataUserCreationProvider {
         );
     }
 
-    public static Stream<Arguments> provideInvalidUserCreationDtos() {
+    @SuppressWarnings("unused")
+    public static Stream<Arguments> provideInvalidUserDtos() {
         String[] emptyMessages = {};
         int badRequest = 400;
         int forbidden = 403;
         int oneError = 1;
         int twoErrors = 2;
         int fourErrors = 4;
-        DataUserDto emptyData = DtoCreator.createInvalidUserCreationDtoWithEmptyData();
+        DataUserDto emptyData = DtoCreator.createUserDtoWithEmptyData();
         String[] dataProperties = {"data"};
         String[] requiredCause = {PROPERTY_REQUIRED};
 
-        DataUserDto withoutAllRequiredFields = DtoCreator.createInvalidUserCreationDtoWithoutAllRequiredFields();
+        DataUserDto withoutAllRequiredFields = DtoCreator.createUserDtoWithoutAllRequiredFields();
         String[] allRequiredProperties = {"firstName", "email", "birthDate", "lastName"};
         String[] requiredFourCauses = getCauses(fourErrors, PROPERTY_REQUIRED);
 
-        DataUserDto withoutBirthDateAndWrongEmail = DtoCreator.createInvalidUserCreationDtoWithoutBirthDateAndWrongEmail();
+        DataUserDto withoutBirthDateAndWrongEmail = DtoCreator.createUserDtoWithoutBirthDateAndWrongEmail();
         String[] birthDateAndEmailProperties = {"email", "birthDate"};
         String[] birthDateAndEmailCauses = {NOT_VALID_EMAIL, PROPERTY_REQUIRED};
 
-        DataUserDto longName = DtoCreator.createInvalidUserCreationDtoWithLongName();
+        DataUserDto longName = DtoCreator.createInvalidUserDtoWithLongName();
         String[] nameProperties = {"firstName"};
         String[] nameCause = {LONG_PROPERTY_32};
 
-        DataUserDto wrongAge = DtoCreator.createInvalidUserCreationDtoWithWrongAge();
+        DataUserDto wrongAge = DtoCreator.createInvalidUserDtoWithWrongAge();
         String[] birthdateProperties = {"user"};
         String[] birthdateCause = {String.format(USER_AGE_ERROR_MESSAGE, ALLOWED_AGE_T0_REGISTER)};
 
