@@ -1,6 +1,6 @@
 package com.havryliuk.test.users.util;
 
-import com.havryliuk.test.users.dto.request.UserCreationDto;
+import com.havryliuk.test.users.dto.request.DataUserDto;
 import com.havryliuk.test.users.dto.request.UserDto;
 import com.havryliuk.test.users.model.Address;
 
@@ -18,39 +18,39 @@ import static com.havryliuk.test.users.util.GlobalConstants.ZEEP_CODE;
 
 public class DtoCreator {
 
-    public static UserCreationDto createValidUserCreationDtoWithAllData() {
+    public static DataUserDto createValidUserDtoWithAllData() {
         Address address = createValidFullAddress();
-        return UserCreationDto.builder()
+        return DataUserDto.builder()
                 .data(createValidUserDto(address, PHONE_NUMBER))
                 .build();
     }
 
-    public static UserCreationDto createValidUserCreationDtoWithoutPhone() {
+    public static DataUserDto createValidUserDtoWithoutPhone() {
         Address address = createValidFullAddress();
         String phoneNumber = null;
-        return UserCreationDto.builder()
+        return DataUserDto.builder()
                 .data(createValidUserDto(address, phoneNumber))
                 .build();
     }
 
-    public static UserCreationDto createValidUserCreationDtoWithoutAddress() {
+    public static DataUserDto createValidUserDtoWithoutAddress() {
         Address address = null;
-        return UserCreationDto.builder()
+        return DataUserDto.builder()
                 .data(createValidUserDto(address, PHONE_NUMBER))
                 .build();
     }
 
-    public static UserCreationDto createValidUserCreationDtoAddressWithoutCountry() {
+    public static DataUserDto createValidUserDtoAddressWithoutCountry() {
         Address address = createValidAddressWithoutCountry();
-        return UserCreationDto.builder()
+        return DataUserDto.builder()
                 .data(createValidUserDto(address, PHONE_NUMBER))
                 .build();
     }
 
-    public static UserCreationDto createValidUserCreationDtoWithOnlyRequiredFields() {
+    public static DataUserDto createValidUserDtoWithOnlyRequiredFields() {
         Address address = createValidAddressWithoutCountry();
         String phoneNumber = null;
-        return UserCreationDto.builder()
+        return DataUserDto.builder()
                 .data(createValidUserDto(address, phoneNumber))
                 .build();
     }
@@ -84,19 +84,19 @@ public class DtoCreator {
     }
 
 
-    public static UserCreationDto createInvalidUserCreationDtoWithEmptyData() {
-        return UserCreationDto.builder()
+    public static DataUserDto createUserDtoWithEmptyData() {
+        return DataUserDto.builder()
                 .build();
     }
 
-    public static UserCreationDto createInvalidUserCreationDtoWithoutAllRequiredFields() {
-        return UserCreationDto.builder()
+    public static DataUserDto createUserDtoWithoutAllRequiredFields() {
+        return DataUserDto.builder()
                 .data(UserDto.builder().build())
                 .build();
     }
 
-    public static UserCreationDto createInvalidUserCreationDtoWithoutBirthDateAndWrongEmail() {
-        return UserCreationDto.builder()
+    public static DataUserDto createUserDtoWithoutBirthDateAndWrongEmail() {
+        return DataUserDto.builder()
                 .data(UserDto.builder()
                         .email("wrong.email")
                         .firstName("Name")
@@ -105,24 +105,24 @@ public class DtoCreator {
                 .build();
     }
 
-    public static UserCreationDto createInvalidUserCreationDtoWithWrongAge() {
-        return UserCreationDto.builder()
+    public static DataUserDto createInvalidUserDtoWithWrongAge() {
+        return DataUserDto.builder()
                 .data(UserDto.builder()
                         .email("domain@email.com")
                         .firstName("Name")
                         .lastName("Surname")
-                        .birthDate(LocalDate.parse("2020-05-02"))
+                        .birthDate(LocalDate.parse("2020-05-02"))//todo refactor hardCodding
                         .build())
                 .build();
     }
 
-    public static UserCreationDto createInvalidUserCreationDtoWithLongName() {
-        return UserCreationDto.builder()
+    public static DataUserDto createInvalidUserDtoWithLongName() {
+        return DataUserDto.builder()
                 .data(UserDto.builder()
                         .email("domain@email.com")
                         .firstName("VeeeeeeeeeeeeeeerryyyyylooooongNaaaaaameeeeeeeeeeeeeee")
                         .lastName("Surname")
-                        .birthDate(LocalDate.parse("1980-01-01"))
+                        .birthDate(LocalDate.parse("1980-01-01"))//todo refactor hardCodding
                         .build())
                 .build();
     }

@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -28,7 +27,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @Override
-    @Nullable
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   @NotNull HttpHeaders headers,
                                                                   @NotNull HttpStatusCode status,

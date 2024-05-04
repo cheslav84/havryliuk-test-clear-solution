@@ -1,7 +1,8 @@
 package com.havryliuk.test.users.service;
 
-import com.havryliuk.test.users.dto.request.UserCreationDto;
+import com.havryliuk.test.users.dto.request.DataUserDto;
 
 public interface UserService {
-    String create(UserCreationDto user);
+    String create(DataUserDto user);
+    void updateFields(String id, DataUserDto user);
 }
