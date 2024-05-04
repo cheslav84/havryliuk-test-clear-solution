@@ -5,10 +5,12 @@ import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.stream.Stream;
 
+import static com.havryliuk.test.users.util.GlobalConstants.EMAIL_FIELD;
+import static com.havryliuk.test.users.util.GlobalConstants.FIRST_NAME_FIELD;
 import static com.havryliuk.test.users.util.GlobalConstants.LONG_PROPERTY_32;
 import static com.havryliuk.test.users.util.GlobalConstants.NOT_VALID_EMAIL;
-import static com.havryliuk.test.users.util.GlobalConstants.PROPERTY_REQUIRED;
 import static com.havryliuk.test.users.util.GlobalConstants.USER_AGE_ERROR_MESSAGE;
+import static com.havryliuk.test.users.util.GlobalConstants.USER_FIELD;
 
 @SuppressWarnings("unused")
 public class DataUserOptionalFieldsProvider {
@@ -34,19 +36,19 @@ public class DataUserOptionalFieldsProvider {
         int twoErrors = 2;
 
         DataUserDto withoutBirthDateAndWrongEmail = DtoCreator.createUserDtoWithoutBirthDateAndWrongEmail();
-        String[] birthDateAndEmailProperties = {"email", "birthDate"};
-        String[] birthDateAndEmailCauses = {NOT_VALID_EMAIL, PROPERTY_REQUIRED};
+        String[] birthDateAndEmailProperties = {EMAIL_FIELD};
+        String[] birthDateAndEmailCauses = {NOT_VALID_EMAIL};
 
         DataUserDto longName = DtoCreator.createInvalidUserDtoWithLongName();
-        String[] nameProperties = {"firstName"};
+        String[] nameProperties = {FIRST_NAME_FIELD};
         String[] nameCause = {LONG_PROPERTY_32};
 
         DataUserDto wrongAge = DtoCreator.createInvalidUserDtoWithWrongAge();
-        String[] birthdateProperties = {"user"};
+        String[] birthdateProperties = {USER_FIELD};
         String[] birthdateCause = {String.format(USER_AGE_ERROR_MESSAGE, ALLOWED_AGE_T0_REGISTER)};
 
         return Stream.of(
-                Arguments.of(withoutBirthDateAndWrongEmail, twoErrors, badRequest, birthDateAndEmailProperties, birthDateAndEmailCauses, emptyMessages),
+                Arguments.of(withoutBirthDateAndWrongEmail, oneError, badRequest, birthDateAndEmailProperties, birthDateAndEmailCauses, emptyMessages),
                 Arguments.of(longName, oneError, badRequest, nameProperties, nameCause, emptyMessages),
                 Arguments.of(wrongAge, oneError, forbidden, birthdateProperties, birthdateCause, emptyMessages)
         );

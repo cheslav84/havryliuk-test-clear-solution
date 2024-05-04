@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 
 import static com.havryliuk.test.users.util.GlobalConstants.CITY;
 import static com.havryliuk.test.users.util.GlobalConstants.COUNTRY;
+import static com.havryliuk.test.users.util.GlobalConstants.LONG_PROPERTY_32;
+import static com.havryliuk.test.users.util.GlobalConstants.PROPERTY_SIZE_5_TO_10;
 import static com.havryliuk.test.users.util.GlobalConstants.STREET;
 import static com.havryliuk.test.users.util.GlobalConstants.ZEEP_CODE;
 
@@ -21,25 +23,19 @@ import static com.havryliuk.test.users.util.GlobalConstants.ZEEP_CODE;
 @AllArgsConstructor
 @Embeddable
 public class Address {
-    @Size(max = 32, message = "Country should be maximum 32 characters long",
-            groups = {FieldsRequired.class, OptionalFields.class})
-    @Size(max = 32, message = "Country should be maximum 32 characters long")
+    @Size(max = 32, message = LONG_PROPERTY_32, groups = {FieldsRequired.class, OptionalFields.class})
     @Schema(example = COUNTRY)
     private String country;
-    @Size(max = 32, message = "City should be maximum 32 characters long",
-            groups = {FieldsRequired.class, OptionalFields.class})
-//    @Size(max = 32, message = "City should be maximum 32 characters long")
+
+    @Size(max = 32, message = LONG_PROPERTY_32, groups = {FieldsRequired.class, OptionalFields.class})
     @Schema(example = CITY)
     private String city;
-    @Size(max = 32, message = "Street should be maximum 32 characters long",
-            groups = {FieldsRequired.class, OptionalFields.class})
-//    @Size(max = 32, message = "Street should be maximum 32 characters long")
+
+    @Size(max = 32, message = LONG_PROPERTY_32, groups = {FieldsRequired.class, OptionalFields.class})
     @Schema(example = STREET)
     private String street;
-    @Size(min = 5, max = 10, message = "Zipcode should be from 5 to 10 characters long",
-            groups = {FieldsRequired.class, OptionalFields.class})
-//    @Size(min = 5, max = 10, message = "Zipcode should be from 5 to 10 characters long")
+
+    @Size(min = 5, max = 10, message = PROPERTY_SIZE_5_TO_10,  groups = {FieldsRequired.class, OptionalFields.class})
     @Schema(example = ZEEP_CODE)
     private String zipcode;
-
 }

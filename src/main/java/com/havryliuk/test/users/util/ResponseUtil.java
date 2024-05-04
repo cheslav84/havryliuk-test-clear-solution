@@ -2,7 +2,7 @@ package com.havryliuk.test.users.util;
 
 import com.havryliuk.test.users.dto.response.ErrorResponseDetail;
 import com.havryliuk.test.users.dto.response.GeneralErrorResponse;
-import com.havryliuk.test.users.exception.DetailsException;
+import com.havryliuk.test.users.exception.DetailsResponseException;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -39,7 +39,7 @@ public class ResponseUtil {//todo use strategy
     }
 
 
-    public static GeneralErrorResponse generateResponse(DetailsException ex, HttpStatusCode status, WebRequest request) {
+    public static GeneralErrorResponse generateResponse(DetailsResponseException ex, HttpStatusCode status, WebRequest request) {
         return GeneralErrorResponse.builder()
                 .timestamp(Instant.now())
                 .statusCode(status.value())
@@ -49,11 +49,11 @@ public class ResponseUtil {//todo use strategy
                 .build();
     }
 
-    private static List<ErrorResponseDetail> addDetails(DetailsException ex) {
+    private static List<ErrorResponseDetail> addDetails(DetailsResponseException ex) {
         return List.of(createDetail(ex));
     }
 
-    private static ErrorResponseDetail createDetail(DetailsException ex) {
+    private static ErrorResponseDetail createDetail(DetailsResponseException ex) {
         return ErrorResponseDetail.builder()
                 .property(ex.getProperty())
                 .cause(ex.getReason())

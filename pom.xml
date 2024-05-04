@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.havryliuk.test</groupId>
 	<artifactId>havryliuk-test-clear-solution</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>havryliuk-test-clear-solution</name>
 	<description>havryliuk-test-clear-solution</description>
 	<properties>

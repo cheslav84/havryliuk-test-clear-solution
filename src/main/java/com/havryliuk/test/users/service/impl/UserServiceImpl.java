@@ -30,5 +30,9 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public void updateWhole(String id, DataUserDto user) {
+
+    }
 
 }
