@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
 
-import static com.havryliuk.test.users.valitator.ValidatorConstants.USER_AGE_ERROR_MESSAGE;
+import static com.havryliuk.test.users.util.GlobalConstants.USER_AGE_ERROR_MESSAGE;
 
 public class UserAgeValidator implements ConstraintValidator<ValidAge, LocalDate> {
 
@@ -21,7 +21,7 @@ public class UserAgeValidator implements ConstraintValidator<ValidAge, LocalDate
     @Override
     public boolean isValid(LocalDate birthDate, ConstraintValidatorContext context) {
         if (birthDate == null) {
-            return false;
+            return true;
         }
         boolean isRegistrationAllowed = LocalDate.now()
                 .minusYears(ALLOWED_AGE_T0_REGISTER)

@@ -1,6 +1,6 @@
 package com.havryliuk.test.users.service.impl;
 
-import com.havryliuk.test.users.dto.request.UserCreationDto;
+import com.havryliuk.test.users.dto.request.DataUserDto;
 import com.havryliuk.test.users.repository.UserRepository;
 import com.havryliuk.test.users.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +18,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public String create(UserCreationDto userDto) {
+    public String create(DataUserDto userDto) {
         String id = UUID.randomUUID().toString();
-
-
-
 //        throw new RuntimeException();
 
         return id;
     }
+
+    @Override
+    public void updateFields(String id, DataUserDto user) {
+
+    }
+
+
 }

@@ -1,6 +1,6 @@
 package com.havryliuk.test.users.util;
 
-import com.havryliuk.test.users.dto.request.UserCreationDto;
+import com.havryliuk.test.users.dto.request.DataUserDto;
 import com.havryliuk.test.users.dto.request.UserDto;
 import com.havryliuk.test.users.model.Address;
 
@@ -18,39 +18,39 @@ import static com.havryliuk.test.users.util.GlobalConstants.ZEEP_CODE;
 
 public class DtoCreator {
 
-    public static UserCreationDto createValidUserCreationDtoWithAllData() {
+    public static DataUserDto createValidUserCreationDtoWithAllData() {
         Address address = createValidFullAddress();
-        return UserCreationDto.builder()
+        return DataUserDto.builder()
                 .data(createValidUserDto(address, PHONE_NUMBER))
                 .build();
     }
 
-    public static UserCreationDto createValidUserCreationDtoWithoutPhone() {
+    public static DataUserDto createValidUserCreationDtoWithoutPhone() {
         Address address = createValidFullAddress();
         String phoneNumber = null;
-        return UserCreationDto.builder()
+        return DataUserDto.builder()
                 .data(createValidUserDto(address, phoneNumber))
                 .build();
     }
 
-    public static UserCreationDto createValidUserCreationDtoWithoutAddress() {
+    public static DataUserDto createValidUserCreationDtoWithoutAddress() {
         Address address = null;
-        return UserCreationDto.builder()
+        return DataUserDto.builder()
                 .data(createValidUserDto(address, PHONE_NUMBER))
                 .build();
     }
 
-    public static UserCreationDto createValidUserCreationDtoAddressWithoutCountry() {
+    public static DataUserDto createValidUserCreationDtoAddressWithoutCountry() {
         Address address = createValidAddressWithoutCountry();
-        return UserCreationDto.builder()
+        return DataUserDto.builder()
                 .data(createValidUserDto(address, PHONE_NUMBER))
                 .build();
     }
 
-    public static UserCreationDto createValidUserCreationDtoWithOnlyRequiredFields() {
+    public static DataUserDto createValidUserCreationDtoWithOnlyRequiredFields() {
         Address address = createValidAddressWithoutCountry();
         String phoneNumber = null;
-        return UserCreationDto.builder()
+        return DataUserDto.builder()
                 .data(createValidUserDto(address, phoneNumber))
                 .build();
     }
@@ -84,19 +84,19 @@ public class DtoCreator {
     }
 
 
-    public static UserCreationDto createInvalidUserCreationDtoWithEmptyData() {
-        return UserCreationDto.builder()
+    public static DataUserDto createInvalidUserCreationDtoWithEmptyData() {
+        return DataUserDto.builder()
                 .build();
     }
 
-    public static UserCreationDto createInvalidUserCreationDtoWithoutAllRequiredFields() {
-        return UserCreationDto.builder()
+    public static DataUserDto createInvalidUserCreationDtoWithoutAllRequiredFields() {
+        return DataUserDto.builder()
                 .data(UserDto.builder().build())
                 .build();
     }
 
-    public static UserCreationDto createInvalidUserCreationDtoWithoutBirthDateAndWrongEmail() {
-        return UserCreationDto.builder()
+    public static DataUserDto createInvalidUserCreationDtoWithoutBirthDateAndWrongEmail() {
+        return DataUserDto.builder()
                 .data(UserDto.builder()
                         .email("wrong.email")
                         .firstName("Name")
@@ -105,8 +105,8 @@ public class DtoCreator {
                 .build();
     }
 
-    public static UserCreationDto createInvalidUserCreationDtoWithWrongAge() {
-        return UserCreationDto.builder()
+    public static DataUserDto createInvalidUserCreationDtoWithWrongAge() {
+        return DataUserDto.builder()
                 .data(UserDto.builder()
                         .email("domain@email.com")
                         .firstName("Name")
@@ -116,8 +116,8 @@ public class DtoCreator {
                 .build();
     }
 
-    public static UserCreationDto createInvalidUserCreationDtoWithLongName() {
-        return UserCreationDto.builder()
+    public static DataUserDto createInvalidUserCreationDtoWithLongName() {
+        return DataUserDto.builder()
                 .data(UserDto.builder()
                         .email("domain@email.com")
                         .firstName("VeeeeeeeeeeeeeeerryyyyylooooongNaaaaaameeeeeeeeeeeeeee")
