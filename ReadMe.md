@@ -5,19 +5,21 @@
 
 
 ### Preconditions
+Age of user that is allowed to register is set in src/main/resources/config/application.yml file
+(constants.allowed-age-to-register=18)
 Some preconditions are taken into account that is not met in requirements:
 - Each user has only one address;
 - Address contains of fields: country, city, street, zipCode;
 - There is no needs to find all users by address, so Address is embedded in User;
-- Valid address zipcode is from 5 to 10 any characters;
-- Email can have only latin characters, numbers, underscores, hyphen and dots;
-- Email is not unique as it is not required to be unique in description;
-- All text fields has some length in order not to exceed database restrictions; 
-- Optional fields also have some validation.
+- Email validation performed by jakarta.validation.constraints.Email;
+- Email is not unique as it is not required to be unique in requirements;
+- All text fields has some length in order to not exceed database restrictions; 
+- Optional fields also have some validation (e.g. phone, zipcode).
 
 
 ### CI
-Simple CI is configured with GitHub Actions that runs application tests.
+Simple CI is configured with GitHub Actions that builds app and runs application tests 
+(see havryliuk-test-clear-solution\.github\workflows\ci.yml).
 
 
 ### Java practical test assignment  

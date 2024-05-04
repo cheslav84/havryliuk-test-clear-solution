@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import static com.havryliuk.test.users.util.GlobalConstants.LOCATION_HEADER;
 import static com.havryliuk.test.users.util.GlobalConstants.USERS_URL;
+import static com.havryliuk.test.users.util.GlobalConstants.USERS_URL_ID;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
@@ -35,9 +36,10 @@ import static org.mockito.ArgumentMatchers.any;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -47,6 +49,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 })
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 class UserControllerUnitTest {
+    private static final String ID = UUID.randomUUID().toString();
+    private static final String MOCK_AGE_FIELD = "ALLOWED_AGE_T0_REGISTER";
+
     private final UserServiceImpl service;
     private final MockMvc mockMvc;
     @Mock
@@ -56,15 +61,14 @@ class UserControllerUnitTest {
     @ParameterizedTest
     @MethodSource("com.havryliuk.test.users.util.DataUserRequiredFieldsProvider#provideValidUserDtos")
     void whenCreateUser_thenReturnResponseCreated(DataUserDto dto) throws Exception {
-        String id = UUID.randomUUID().toString();
-        when(service.create(any(DataUserDto.class))).thenReturn(id);
+        when(service.create(any(DataUserDto.class))).thenReturn(ID);
 
         mockMvc.perform(post(USERS_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonConverter.toString(dto)))
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.header()
-                        .stringValues(LOCATION_HEADER, USERS_URL + "/" + id));
+                        .stringValues(LOCATION_HEADER, String.format(USERS_URL_ID, ID)));
     }
 
 
@@ -78,7 +82,7 @@ class UserControllerUnitTest {
                                                      String[] causes,
                                                      String[] messages) throws Exception {
 
-        ReflectionTestUtils.setField(validator, "ALLOWED_AGE_T0_REGISTER", DataUserRequiredFieldsProvider.ALLOWED_AGE_T0_REGISTER);
+        ReflectionTestUtils.setField(validator, MOCK_AGE_FIELD, DataUserRequiredFieldsProvider.ALLOWED_AGE_T0_REGISTER);
 
         mockMvc.perform(post(USERS_URL)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -97,13 +101,11 @@ class UserControllerUnitTest {
 
 
     @ParameterizedTest
-    @MethodSource("com.havryliuk.test.users.util.DataUserRequiredFieldsProvider#provideValidUser" +
-            "Dtos")
+    @MethodSource("com.havryliuk.test.users.util.DataUserRequiredFieldsProvider#provideValidUserDtos")
     void whenUpdateUser_withUserRequiredField_thenReturnResponseOk(DataUserDto dto) throws Exception {
-        String id = UUID.randomUUID().toString();
-        doNothing().when(service).updateFields(eq(id), any(DataUserDto.class));
+        doNothing().when(service).updateFields(eq(ID), any(DataUserDto.class));
 
-        mockMvc.perform(patch(USERS_URL + "/" + id)
+        mockMvc.perform(patch(String.format(USERS_URL_ID, ID))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonConverter.toString(dto)))
                 .andExpect(status().isOk());
@@ -113,10 +115,9 @@ class UserControllerUnitTest {
     @ParameterizedTest
     @MethodSource("com.havryliuk.test.users.util.DataUserOptionalFieldsProvider#provideValidUserDtos")
     void whenUpdateUser_withUserOptionalFields_thenReturnResponseOk(DataUserDto dto) throws Exception {
-        String id = UUID.randomUUID().toString();
-        doNothing().when(service).updateFields(eq(id), any(DataUserDto.class));
+        doNothing().when(service).updateFields(eq(ID), any(DataUserDto.class));
 
-        mockMvc.perform(patch(USERS_URL + "/" + id)
+        mockMvc.perform(patch(String.format(USERS_URL_ID, ID))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonConverter.toString(dto)))
                 .andExpect(status().isOk());
@@ -132,16 +133,16 @@ class UserControllerUnitTest {
                                                 String[] causes,
                                                 String[] messages) throws Exception {
 
-        ReflectionTestUtils.setField(validator, "ALLOWED_AGE_T0_REGISTER", DataUserRequiredFieldsProvider.ALLOWED_AGE_T0_REGISTER);
+        ReflectionTestUtils.setField(validator, MOCK_AGE_FIELD, DataUserRequiredFieldsProvider.ALLOWED_AGE_T0_REGISTER);
 
-        mockMvc.perform(post(USERS_URL)
+        mockMvc.perform(patch(String.format(USERS_URL_ID, ID))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonConverter.toString(dto)))
                 .andExpect(status().is(status))
                 .andExpect(jsonPath("$.timestamp", is(notNullValue())))
                 .andExpect(jsonPath("$.title", is(HttpReasonResolver.getReasonPhrase(status))))
                 .andExpect(jsonPath("$.statusCode", is(status)))
-                .andExpect(jsonPath("$.instance", is(USERS_URL)))
+                .andExpect(jsonPath("$.instance", is(String.format(USERS_URL_ID, ID))))
                 .andExpect(jsonPath("$.details").isArray())
                 .andExpect(jsonPath("$.details", hasSize(errors)))
                 .andExpect(jsonPath("$.details[*].property", hasItems(parameters)))
@@ -149,4 +150,42 @@ class UserControllerUnitTest {
                 .andExpect(jsonPath("$.details[*].message", hasItems(messages)));
     }
 
+
+    @ParameterizedTest
+    @MethodSource("com.havryliuk.test.users.util.DataUserRequiredFieldsProvider#provideValidUserDtos")
+    void whenReplaceUser_thenReturnResponseOk(DataUserDto dto) throws Exception {
+        doNothing().when(service).updateFields(eq(ID), any(DataUserDto.class));
+
+        mockMvc.perform(put(String.format(USERS_URL_ID, ID))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonConverter.toString(dto)))
+                .andExpect(status().isOk());
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("com.havryliuk.test.users.util.DataUserRequiredFieldsProvider#provideInvalidUserDtos")
+    void whenReplaceUser_thenReturnResponseError(DataUserDto dto,
+                                                int errors,
+                                                int status,
+                                                String[] parameters,
+                                                String[] causes,
+                                                String[] messages) throws Exception {
+
+        ReflectionTestUtils.setField(validator, MOCK_AGE_FIELD, DataUserRequiredFieldsProvider.ALLOWED_AGE_T0_REGISTER);
+
+        mockMvc.perform(put(String.format(USERS_URL_ID, ID))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonConverter.toString(dto)))
+                .andExpect(status().is(status))
+                .andExpect(jsonPath("$.timestamp", is(notNullValue())))
+                .andExpect(jsonPath("$.title", is(HttpReasonResolver.getReasonPhrase(status))))
+                .andExpect(jsonPath("$.statusCode", is(status)))
+                .andExpect(jsonPath("$.instance", is(String.format(USERS_URL_ID, ID))))
+                .andExpect(jsonPath("$.details").isArray())
+                .andExpect(jsonPath("$.details", hasSize(errors)))
+                .andExpect(jsonPath("$.details[*].property", hasItems(parameters)))
+                .andExpect(jsonPath("$.details[*].cause", containsInAnyOrder(causes)))
+                .andExpect(jsonPath("$.details[*].message", hasItems(messages)));
+    }
 }

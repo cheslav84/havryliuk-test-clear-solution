@@ -3,10 +3,10 @@ package com.havryliuk.test.users.util;
 public class GlobalConstants {
 
     /**
-     * URL
+     * URLs
      */
     public static final String USERS_URL = "/api/v1/users";
-    public static final String USERS_URL_ID = "/api/v1/users/{id}";
+    public static final String USERS_URL_ID = "/api/v1/users/%s";
 
 
     /**
@@ -24,12 +24,13 @@ public class GlobalConstants {
     /**
      * Fields
      */
+    public static final String DATA_FIELD = "data";
     public static final String USER_FIELD = "user";
     public static final String EMAIL_FIELD = "email";
-//    public static final String FIRST_NAME_FIELD = "firstName";
-//    public static final String LAST_NAME_FIELD = "lastName";
+    public static final String FIRST_NAME_FIELD = "firstName";
+    public static final String LAST_NAME_FIELD = "lastName";
 //    public static final String PHONE_NUMBER_FIELD = "phoneNumber";
-//    public static final String BIRTH_DATE_FIELD = "birthDate";
+    public static final String BIRTH_DATE_FIELD = "birthDate";
 //    public static final String COUNTRY_FIELD = "country";
 //    public static final String CITY_FIELD = "city";
 //    public static final String STREET_FIELD = "street";
@@ -76,6 +77,7 @@ public class GlobalConstants {
     public static final String PROPERTY_REQUIRED = "is required";
     public static final String DATA_NOT_FOUND = "data not found";
     public static final String LONG_PROPERTY_32 = "should be maximum 32 characters long";
+    public static final String PROPERTY_SIZE_5_TO_10 = "should be from 5 to 10 characters long";
     public static final String INCORRECT_PHONE_NUMBER = "Phone number should be 10 digits long or '+' sign and 12 digits long";
     public static final String ERROR_PROPERTY = "%property";
     public static final String INCORRECT_JSON = "JSON parse error";

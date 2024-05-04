@@ -7,10 +7,16 @@ import org.junit.jupiter.params.provider.Arguments;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+import static com.havryliuk.test.users.util.GlobalConstants.BIRTH_DATE_FIELD;
+import static com.havryliuk.test.users.util.GlobalConstants.DATA_FIELD;
+import static com.havryliuk.test.users.util.GlobalConstants.EMAIL_FIELD;
+import static com.havryliuk.test.users.util.GlobalConstants.FIRST_NAME_FIELD;
+import static com.havryliuk.test.users.util.GlobalConstants.LAST_NAME_FIELD;
 import static com.havryliuk.test.users.util.GlobalConstants.LONG_PROPERTY_32;
 import static com.havryliuk.test.users.util.GlobalConstants.NOT_VALID_EMAIL;
 import static com.havryliuk.test.users.util.GlobalConstants.PROPERTY_REQUIRED;
 import static com.havryliuk.test.users.util.GlobalConstants.USER_AGE_ERROR_MESSAGE;
+import static com.havryliuk.test.users.util.GlobalConstants.USER_FIELD;
 
 public class DataUserRequiredFieldsProvider {
     public static final Long ALLOWED_AGE_T0_REGISTER = 18L;
@@ -40,23 +46,23 @@ public class DataUserRequiredFieldsProvider {
         int twoErrors = 2;
         int fourErrors = 4;
         DataUserDto emptyData = DtoCreator.createUserDtoWithEmptyData();
-        String[] dataProperties = {"data"};
+        String[] dataProperties = {DATA_FIELD};
         String[] requiredCause = {PROPERTY_REQUIRED};
 
         DataUserDto withoutAllRequiredFields = DtoCreator.createUserDtoWithoutAllRequiredFields();
-        String[] allRequiredProperties = {"firstName", "email", "birthDate", "lastName"};
-        String[] requiredFourCauses = getCauses(fourErrors, PROPERTY_REQUIRED);
+        String[] allRequiredProperties = {FIRST_NAME_FIELD, EMAIL_FIELD, BIRTH_DATE_FIELD, LAST_NAME_FIELD};
+        String[] requiredFourCauses = getCauses(fourErrors);
 
         DataUserDto withoutBirthDateAndWrongEmail = DtoCreator.createUserDtoWithoutBirthDateAndWrongEmail();
-        String[] birthDateAndEmailProperties = {"email", "birthDate"};
+        String[] birthDateAndEmailProperties = {EMAIL_FIELD, BIRTH_DATE_FIELD};
         String[] birthDateAndEmailCauses = {NOT_VALID_EMAIL, PROPERTY_REQUIRED};
 
         DataUserDto longName = DtoCreator.createInvalidUserDtoWithLongName();
-        String[] nameProperties = {"firstName"};
+        String[] nameProperties = {FIRST_NAME_FIELD};
         String[] nameCause = {LONG_PROPERTY_32};
 
         DataUserDto wrongAge = DtoCreator.createInvalidUserDtoWithWrongAge();
-        String[] birthdateProperties = {"user"};
+        String[] birthdateProperties = {USER_FIELD};
         String[] birthdateCause = {String.format(USER_AGE_ERROR_MESSAGE, ALLOWED_AGE_T0_REGISTER)};
 
         return Stream.of(
@@ -69,9 +75,9 @@ public class DataUserRequiredFieldsProvider {
     }
 
     @NotNull
-    private static String[] getCauses(int size, String cause) {
+    private static String[] getCauses(int size) {
         String[] requiredFourCauses = new String[size];
-        Arrays.fill(requiredFourCauses, cause);
+        Arrays.fill(requiredFourCauses, GlobalConstants.PROPERTY_REQUIRED);
         return requiredFourCauses;
     }
 }

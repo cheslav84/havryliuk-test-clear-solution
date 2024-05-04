@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import java.time.LocalDate;
 
 import static com.havryliuk.test.users.util.GlobalConstants.USER_AGE_ERROR_MESSAGE;
+import static com.havryliuk.test.users.util.GlobalConstants.USER_FIELD;
 
 public class UserAgeValidator implements ConstraintValidator<ValidAge, LocalDate> {
 
@@ -29,7 +30,7 @@ public class UserAgeValidator implements ConstraintValidator<ValidAge, LocalDate
                 .isAfter(birthDate);
         if (!isRegistrationAllowed) {
             String cause = String.format(USER_AGE_ERROR_MESSAGE, ALLOWED_AGE_T0_REGISTER);
-            throw new UserRegistrationRestrictionExceptions("user", cause);
+            throw new UserRegistrationRestrictionExceptions(USER_FIELD, cause);
         }
         return true;
     }
