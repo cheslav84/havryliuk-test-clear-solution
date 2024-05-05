@@ -98,7 +98,6 @@ public interface UserControllerSwaggerDescriptor {
     void updateUserFields(@RequestBody DataUserDto user, @PathVariable String id);
 
 
-
     @SuppressWarnings("unused")
     @Tag(name = TAG_USER)
     @Operation(summary = "Update whole user")
@@ -127,8 +126,18 @@ public interface UserControllerSwaggerDescriptor {
     void updateWholeUser(@RequestBody DataUserDto user, @PathVariable String id);
 
 
-
-
-
-
+    @SuppressWarnings("unused")
+    @Tag(name = TAG_USER)
+    @Operation(summary = "Delete")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = OK),
+            @ApiResponse(responseCode = "404", description = NOT_FOUND,
+                    content = @Content(schema = @Schema(implementation = GeneralErrorResponse.class),
+                            examples = @ExampleObject(name = USER_NOT_FOUND, value = USER_NOT_FOUND_RESPONSE_ID))),
+            @ApiResponse(responseCode = "500", description = SERVER_ERROR,
+                    content = @Content(schema = @Schema(implementation = GeneralErrorResponse.class),
+                            examples = {@ExampleObject(name = SERVER_ERROR, value = SERVER_ERROR_RESPONSE_ID)
+                            }))
+    })
+    void deleteUser(@PathVariable String id);
 }

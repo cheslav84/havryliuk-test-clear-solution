@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,6 +60,14 @@ public class UserController implements UserControllerSwaggerDescriptor {
                                 @PathVariable String id) {
         log.info("PUT {}", String.format(USERS_URL_ID, id));
         userService.updateWhole(id, user);
+    }
+
+    @Override
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUser(@PathVariable String id) {
+        log.info("PUT {}", String.format(USERS_URL_ID, id));
+        userService.delete(id);
     }
 
 }

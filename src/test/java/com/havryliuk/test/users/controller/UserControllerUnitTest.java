@@ -6,7 +6,9 @@ import com.havryliuk.test.users.util.HttpReasonResolver;
 import com.havryliuk.test.users.util.JsonConverter;
 import com.havryliuk.test.users.util.DataUserRequiredFieldsProvider;
 import com.havryliuk.test.users.valitator.UserAgeValidator;
+import com.havryliuk.test.users.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.runner.RunWith;
@@ -23,19 +25,26 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.UUID;
 
+import static com.havryliuk.test.users.util.GlobalConstants.DATA_NOT_FOUND;
 import static com.havryliuk.test.users.util.GlobalConstants.LOCATION_HEADER;
+import static com.havryliuk.test.users.util.GlobalConstants.SERVER_ERROR_MESSAGE;
 import static com.havryliuk.test.users.util.GlobalConstants.USERS_URL;
 import static com.havryliuk.test.users.util.GlobalConstants.USERS_URL_ID;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static com.havryliuk.test.users.util.GlobalConstants.USER_FIELD;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -69,6 +78,8 @@ class UserControllerUnitTest {
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.header()
                         .stringValues(LOCATION_HEADER, String.format(USERS_URL_ID, ID)));
+
+        verify(service, times(1)).create(any(DataUserDto.class));
     }
 
 
@@ -95,8 +106,10 @@ class UserControllerUnitTest {
                 .andExpect(jsonPath("$.details").isArray())
                 .andExpect(jsonPath("$.details", hasSize(errors)))
                 .andExpect(jsonPath("$.details[*].property", hasItems(parameters)))
-                .andExpect(jsonPath("$.details[*].cause", containsInAnyOrder(causes)))
+                .andExpect(jsonPath("$.details[*].cause", hasItems(causes)))
                 .andExpect(jsonPath("$.details[*].message", hasItems(messages)));
+
+        verify(service, never()).create(any(DataUserDto.class));
     }
 
 
@@ -109,6 +122,8 @@ class UserControllerUnitTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonConverter.toString(dto)))
                 .andExpect(status().isOk());
+
+        verify(service, times(1)).updateFields(eq(ID), any(DataUserDto.class));
     }
 
 
@@ -121,6 +136,8 @@ class UserControllerUnitTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonConverter.toString(dto)))
                 .andExpect(status().isOk());
+
+        verify(service, times(1)).updateFields(eq(ID), any(DataUserDto.class));
     }
 
 
@@ -146,20 +163,24 @@ class UserControllerUnitTest {
                 .andExpect(jsonPath("$.details").isArray())
                 .andExpect(jsonPath("$.details", hasSize(errors)))
                 .andExpect(jsonPath("$.details[*].property", hasItems(parameters)))
-                .andExpect(jsonPath("$.details[*].cause", containsInAnyOrder(causes)))
+                .andExpect(jsonPath("$.details[*].cause", hasItems(causes)))
                 .andExpect(jsonPath("$.details[*].message", hasItems(messages)));
+
+        verify(service, never()).updateFields(eq(ID), any(DataUserDto.class));
     }
 
 
     @ParameterizedTest
     @MethodSource("com.havryliuk.test.users.util.DataUserRequiredFieldsProvider#provideValidUserDtos")
     void whenReplaceUser_thenReturnResponseOk(DataUserDto dto) throws Exception {
-        doNothing().when(service).updateFields(eq(ID), any(DataUserDto.class));
+        doNothing().when(service).updateWhole(eq(ID), any(DataUserDto.class));
 
         mockMvc.perform(put(String.format(USERS_URL_ID, ID))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonConverter.toString(dto)))
                 .andExpect(status().isOk());
+
+        verify(service, times(1)).updateWhole(eq(ID), any(DataUserDto.class));
     }
 
 
@@ -185,7 +206,58 @@ class UserControllerUnitTest {
                 .andExpect(jsonPath("$.details").isArray())
                 .andExpect(jsonPath("$.details", hasSize(errors)))
                 .andExpect(jsonPath("$.details[*].property", hasItems(parameters)))
-                .andExpect(jsonPath("$.details[*].cause", containsInAnyOrder(causes)))
+                .andExpect(jsonPath("$.details[*].cause", hasItems(causes)))
                 .andExpect(jsonPath("$.details[*].message", hasItems(messages)));
+
+        verify(service, never()).updateWhole(eq(ID), any(DataUserDto.class));
+    }
+
+
+    @Test
+    void whenDeleteUser_thenReturnResponseOk() throws Exception {
+        doNothing().when(service).delete(eq(ID));
+
+        mockMvc.perform(delete(String.format(USERS_URL_ID, ID)))
+                .andExpect(status().isOk());
+
+        verify(service, times(1)).delete(eq(ID));
+    }
+
+    @Test
+    void whenDeleteUser_thenReturnResponseNotFound() throws Exception {
+        doThrow(new NotFoundException(USER_FIELD)).when(service).delete(eq(ID));
+
+        mockMvc.perform(delete(String.format(USERS_URL_ID, ID)))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.timestamp", is(notNullValue())))
+                .andExpect(jsonPath("$.title", is(HttpReasonResolver.getReasonPhrase(404))))
+                .andExpect(jsonPath("$.statusCode", is(404)))
+                .andExpect(jsonPath("$.instance", is(String.format(USERS_URL_ID, ID))))
+                .andExpect(jsonPath("$.details").isArray())
+                .andExpect(jsonPath("$.details", hasSize(1)))
+                .andExpect(jsonPath("$.details[*].property", hasItems(USER_FIELD)))
+                .andExpect(jsonPath("$.details[*].cause", hasItems(DATA_NOT_FOUND)))
+                .andExpect(jsonPath("$.details[*].message", hasItems(new String[]{})));
+
+        verify(service, times(1)).delete(eq(ID));
+    }
+
+    @Test
+    void whenDeleteUser_thenReturnResponseServerError() throws Exception {
+        doThrow(new RuntimeException()).when(service).delete(eq(ID));
+
+        mockMvc.perform(delete(String.format(USERS_URL_ID, ID)))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.timestamp", is(notNullValue())))
+                .andExpect(jsonPath("$.title", is(HttpReasonResolver.getReasonPhrase(500))))
+                .andExpect(jsonPath("$.statusCode", is(500)))
+                .andExpect(jsonPath("$.instance", is(String.format(USERS_URL_ID, ID))))
+                .andExpect(jsonPath("$.details").isArray())
+                .andExpect(jsonPath("$.details", hasSize(1)))
+                .andExpect(jsonPath("$.details[*].property", hasItems(new String[]{})))
+                .andExpect(jsonPath("$.details[*].cause", hasItems(new String[]{})))
+                .andExpect(jsonPath("$.details[*].message", hasItems(SERVER_ERROR_MESSAGE)));
+
+        verify(service, times(1)).delete(eq(ID));
     }
 }

@@ -72,7 +72,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<GeneralErrorResponse> handleAllExceptions(Exception ex, WebRequest request) {
-        log.error("Internal server error", ex);
+        log.error("Internal server error stack trace", ex);
         GeneralErrorResponse errorResponse = ResponseUtil
                 .generateResponse(SERVER_ERROR_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR, request);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);

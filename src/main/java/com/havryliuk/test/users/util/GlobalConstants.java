@@ -66,7 +66,7 @@ public class GlobalConstants {
     public static final String BAD_REQUEST = "Bad Request";
     public static final String FORBIDDEN = "Forbidden";
     public static final String NOT_FOUND = "Not Found";
-    public static final String SERVER_ERROR = "Server Error";
+    public static final String SERVER_ERROR = "Internal Server Error";
 
 
     /**
@@ -78,8 +78,8 @@ public class GlobalConstants {
     public static final String DATA_NOT_FOUND = "data not found";
     public static final String LONG_PROPERTY_32 = "should be maximum 32 characters long";
     public static final String PROPERTY_SIZE_5_TO_10 = "should be from 5 to 10 characters long";
-    public static final String INCORRECT_PHONE_NUMBER = "Phone number should be 10 digits long or '+' sign and 12 digits long";
+    public static final String INCORRECT_PHONE_NUMBER = "should be 10 digits long or '+' sign and 12 digits long";
     public static final String ERROR_PROPERTY = "%property";
     public static final String INCORRECT_JSON = "JSON parse error";
-    public static final String SERVER_ERROR_MESSAGE = "Something went wrong. Try please later";
+    public static final String SERVER_ERROR_MESSAGE = "Something went wrong. Please try again later.";
 }

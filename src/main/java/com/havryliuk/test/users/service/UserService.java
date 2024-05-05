@@ -6,4 +6,5 @@ public interface UserService {
     String create(DataUserDto user);
     void updateFields(String id, DataUserDto user);
     void updateWhole(String id, DataUserDto user);
+    void delete(String id);
 }

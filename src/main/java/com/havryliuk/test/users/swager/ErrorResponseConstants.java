@@ -10,6 +10,7 @@ import static com.havryliuk.test.users.util.GlobalConstants.DATA_NOT_FOUND;
 import static com.havryliuk.test.users.util.GlobalConstants.NOT_FOUND;
 import static com.havryliuk.test.users.util.GlobalConstants.NOT_VALID_EMAIL;
 import static com.havryliuk.test.users.util.GlobalConstants.PROPERTY_REQUIRED;
+import static com.havryliuk.test.users.util.GlobalConstants.SERVER_ERROR;
 import static com.havryliuk.test.users.util.GlobalConstants.SERVER_ERROR_MESSAGE;
 import static com.havryliuk.test.users.util.GlobalConstants.USERS_URL;
 import static com.havryliuk.test.users.util.GlobalConstants.USERS_URL_ID;
@@ -99,8 +100,8 @@ public class ErrorResponseConstants {
     public static final String SERVER_ERROR_RESPONSE =
                     "{\n" +
                     "  \"timestamp\": \"" + TYPE_STAMP_EXAMPLE + "\",\n" +
-                    "  \"title\": \"" + BAD_REQUEST + "\",\n" +
-                    "  \"statusCode\": 400,\n" +
+                    "  \"title\": \"" + SERVER_ERROR + "\",\n" +
+                    "  \"statusCode\": 500,\n" +
                     "  \"details\": [\n" +
                     "    {\n" +
                     "      \"message\": \"" + SERVER_ERROR_MESSAGE + "\",\n" +
@@ -205,8 +206,8 @@ public class ErrorResponseConstants {
     public static final String SERVER_ERROR_RESPONSE_ID =
                     "{\n" +
                     "  \"timestamp\": \"" + TYPE_STAMP_EXAMPLE + "\",\n" +
-                    "  \"title\": \"" + BAD_REQUEST + "\",\n" +
-                    "  \"statusCode\": 400,\n" +
+                    "  \"title\": \"" + SERVER_ERROR + "\",\n" +
+                    "  \"statusCode\": 500,\n" +
                     "  \"details\": [\n" +
                     "    {\n" +
                     "      \"message\": \"" + SERVER_ERROR_MESSAGE + "\",\n" +
