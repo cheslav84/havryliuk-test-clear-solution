@@ -3,7 +3,6 @@ package com.havryliuk.test.users.service.impl;
 import com.havryliuk.test.users.dto.UserDtoResponse;
 import com.havryliuk.test.users.dto.request.BirthdayRangeDto;
 import com.havryliuk.test.users.dto.request.DataUserDto;
-import com.havryliuk.test.users.dto.response.DataUsersDto;
 import com.havryliuk.test.users.dto.response.UserShortDtoResponse;
 import com.havryliuk.test.users.exception.NotFoundException;
 import com.havryliuk.test.users.model.User;
@@ -12,12 +11,17 @@ import com.havryliuk.test.users.service.UserService;
 import com.havryliuk.test.users.util.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.List;
+import java.time.LocalDate;
 
+import static com.havryliuk.test.users.util.GlobalConstants.BIRTH_DATE_FIELD;
 import static com.havryliuk.test.users.util.GlobalConstants.USER_FIELD;
 
 @Slf4j
@@ -60,13 +64,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public DataUsersDto find(BirthdayRangeDto birthDateRange, Integer number, Integer size) {
-
-        List<UserShortDtoResponse> list = repository.findAllBy(UserShortDtoResponse.class);
-//        List<UserShortDtoResponse> list = repository.findAll();
-
-return null;
-//        throw new UnsupportedOperationException();
+    public Page<UserShortDtoResponse> find(BirthdayRangeDto birthDateRange, Integer number, Integer size) {
+        Sort sort = Sort.by(BIRTH_DATE_FIELD);
+        Pageable pageable = PageRequest.of(number, size, sort);
+        return repository.findAllByBirthDateBetween(UserShortDtoResponse.class, pageable,
+                birthDateRange.birthDateFrom(),  birthDateRange.birthDateTo());
     }
 
 }

@@ -3,7 +3,8 @@ package com.havryliuk.test.users.service;
 import com.havryliuk.test.users.dto.UserDtoResponse;
 import com.havryliuk.test.users.dto.request.BirthdayRangeDto;
 import com.havryliuk.test.users.dto.request.DataUserDto;
-import com.havryliuk.test.users.dto.response.DataUsersDto;
+import com.havryliuk.test.users.dto.response.UserShortDtoResponse;
+import org.springframework.data.domain.Page;
 
 public interface UserService {
     String create(DataUserDto user);
@@ -11,5 +12,5 @@ public interface UserService {
     void updateWhole(String id, DataUserDto user);
     void delete(String id);
     UserDtoResponse find(String id);
-    DataUsersDto find(BirthdayRangeDto birthDateRange, Integer number, Integer size);
+    Page<UserShortDtoResponse> find(BirthdayRangeDto birthDateRange, Integer number, Integer size);
 }

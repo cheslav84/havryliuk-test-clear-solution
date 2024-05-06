@@ -3,7 +3,7 @@ package com.havryliuk.test.users.controller;
 import com.havryliuk.test.users.dto.UserDtoResponse;
 import com.havryliuk.test.users.dto.request.BirthdayRangeDto;
 import com.havryliuk.test.users.dto.request.DataUserDto;
-import com.havryliuk.test.users.dto.response.DataUsersDto;
+import com.havryliuk.test.users.dto.response.UserShortDtoResponse;
 import com.havryliuk.test.users.service.impl.UserServiceImpl;
 import com.havryliuk.test.users.util.DtoCreator;
 import com.havryliuk.test.users.util.HttpReasonResolver;
@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.MockBeans;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -274,20 +275,17 @@ class UserControllerUnitTest {
 
     @Test
     void whenFindUsersByBirthdateRange_thenReturnBirthdayRangeDto() throws Exception {
-        int number = 1;
-        int sizeRequested = 5;
-        int sizeActual = 2;
-        DataUsersDto users = DtoCreator.createDataUsersDto(sizeActual, number);
+        Page<UserShortDtoResponse> users = DtoCreator.createPageOfUsers();
         BirthdayRangeDto dto = DtoCreator.createBirthdayRangeDto();
         LocalDate from = dto.birthDateFrom();
         LocalDate to = dto.birthDateTo();
 
-        when(service.find(dto, number, sizeRequested)).thenReturn(users);
+        when(service.find(dto, 0, 5)).thenReturn(users);
 
         mockMvc.perform(get(String.format(USERS_URL_BIRTHDATE_RANGE, from, to)))
                 .andExpect(status().isOk());
 
-        verify(service, times(1)).find(dto, number, sizeRequested);
+        verify(service, times(1)).find(dto, 0, 5);
     }
 
     @Test
