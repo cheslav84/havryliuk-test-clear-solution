@@ -1,4 +1,4 @@
-package com.havryliuk.test.users.dto.response;
+package com.havryliuk.test.users.dto.response.errors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

@@ -7,6 +7,7 @@ public class GlobalConstants {
      */
     public static final String USERS_URL = "/api/v1/users";
     public static final String USERS_URL_ID = "/api/v1/users/%s";
+    public static final String USERS_URL_BIRTHDATE_RANGE = "/api/v1/users/birthdate-range?birthDateFrom=%s&birthDateTo=%s";
 
 
     /**
@@ -29,12 +30,10 @@ public class GlobalConstants {
     public static final String EMAIL_FIELD = "email";
     public static final String FIRST_NAME_FIELD = "firstName";
     public static final String LAST_NAME_FIELD = "lastName";
-//    public static final String PHONE_NUMBER_FIELD = "phoneNumber";
     public static final String BIRTH_DATE_FIELD = "birthDate";
-//    public static final String COUNTRY_FIELD = "country";
-//    public static final String CITY_FIELD = "city";
-//    public static final String STREET_FIELD = "street";
-//    public static final String ZEEP_CODE_FIELD = "zipcode";
+    public static final String BIRTH_DATE_FROM_FIELD  = "birthDateFrom";
+    public static final String BIRTH_DATE_TO_FIELD  = "birthDateTo";
+
 
 
     /**
@@ -55,8 +54,9 @@ public class GlobalConstants {
      * Swagger descriptions
      */
     public static final String USER_CREATED_HEADER_DESCRIPTION = "location: /v1/users/{id}";
-
-
+    public static final String UUID_EXAMPLE = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
+    public static final String URL_WITH_UUID_EXAMPLE = "/api/v1/users/3fa85f64-5717-4562-b3fc-2c963f66afa6";
+    public static final String BIRTH_DATE_FROM = "1990-05-01";
 
     /**
      * Http responses
@@ -79,6 +79,7 @@ public class GlobalConstants {
     public static final String LONG_PROPERTY_32 = "should be maximum 32 characters long";
     public static final String PROPERTY_SIZE_5_TO_10 = "should be from 5 to 10 characters long";
     public static final String INCORRECT_PHONE_NUMBER = "should be 10 digits long or '+' sign and 12 digits long";
+    public static final String NOT_COHERENT_DATES = "date 'from' must be earlier than date 'to'";
     public static final String ERROR_PROPERTY = "%property";
     public static final String INCORRECT_JSON = "JSON parse error";
     public static final String SERVER_ERROR_MESSAGE = "Something went wrong. Please try again later.";

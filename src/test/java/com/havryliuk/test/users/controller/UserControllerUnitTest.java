@@ -1,7 +1,10 @@
 package com.havryliuk.test.users.controller;
 
+import com.havryliuk.test.users.dto.request.BirthdayRangeDto;
 import com.havryliuk.test.users.dto.request.DataUserDto;
+import com.havryliuk.test.users.dto.response.DataUsersDto;
 import com.havryliuk.test.users.service.impl.UserServiceImpl;
+import com.havryliuk.test.users.util.DtoCreator;
 import com.havryliuk.test.users.util.HttpReasonResolver;
 import com.havryliuk.test.users.util.JsonConverter;
 import com.havryliuk.test.users.util.DataUserRequiredFieldsProvider;
@@ -23,14 +26,19 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
+import static com.havryliuk.test.users.util.GlobalConstants.BIRTH_DATE_FROM_FIELD;
+import static com.havryliuk.test.users.util.GlobalConstants.BIRTH_DATE_TO_FIELD;
+import static com.havryliuk.test.users.util.GlobalConstants.NOT_COHERENT_DATES;
+import static com.havryliuk.test.users.util.GlobalConstants.USER_FIELD;
 import static com.havryliuk.test.users.util.GlobalConstants.DATA_NOT_FOUND;
 import static com.havryliuk.test.users.util.GlobalConstants.LOCATION_HEADER;
 import static com.havryliuk.test.users.util.GlobalConstants.SERVER_ERROR_MESSAGE;
 import static com.havryliuk.test.users.util.GlobalConstants.USERS_URL;
 import static com.havryliuk.test.users.util.GlobalConstants.USERS_URL_ID;
-import static com.havryliuk.test.users.util.GlobalConstants.USER_FIELD;
+import static com.havryliuk.test.users.util.GlobalConstants.USERS_URL_BIRTHDATE_RANGE;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.eq;
@@ -48,6 +56,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -260,4 +269,45 @@ class UserControllerUnitTest {
 
         verify(service, times(1)).delete(eq(ID));
     }
+
+
+    @Test
+    void whenFindUsersByBirthdateRange_thenReturnBirthdayRangeDto() throws Exception {
+        int number = 1;
+        int sizeRequested = 5;
+        int sizeActual = 2;
+        DataUsersDto users = DtoCreator.createDataUsersDto(sizeActual, number);
+        BirthdayRangeDto dto = DtoCreator.createBirthdayRangeDto();
+        LocalDate from = dto.birthDateFrom();
+        LocalDate to = dto.birthDateTo();
+
+        when(service.find(dto, number, sizeRequested)).thenReturn(users);
+
+        mockMvc.perform(get(String.format(USERS_URL_BIRTHDATE_RANGE, from, to)))
+                .andExpect(status().isOk());
+
+        verify(service, times(1)).find(dto, number, sizeRequested);
+    }
+
+    @Test
+    void whenFindUsersByBirthdateRange_thenReturnResponseBadRequest_IncoherentDates() throws Exception {
+        LocalDate date = LocalDate.of(2005, 4, 5);
+        String url = String.format(USERS_URL_BIRTHDATE_RANGE, date, date);
+        mockMvc.perform(get(url))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.timestamp", is(notNullValue())))
+                .andExpect(jsonPath("$.title", is(HttpReasonResolver.getReasonPhrase(400))))
+                .andExpect(jsonPath("$.statusCode", is(400)))
+                .andExpect(jsonPath("$.instance", is(url)))
+                .andExpect(jsonPath("$.details").isArray())
+                .andExpect(jsonPath("$.details", hasSize(2)))
+                .andExpect(jsonPath("$.details[*].property", hasItems(BIRTH_DATE_FROM_FIELD, BIRTH_DATE_TO_FIELD)))
+                .andExpect(jsonPath("$.details[*].cause", hasItems(NOT_COHERENT_DATES)))
+                .andExpect(jsonPath("$.details[*].message", hasItems(new String[]{})));
+
+        verify(service, never()).find(any(BirthdayRangeDto.class), any(Integer.class), any(Integer.class));
+    }
+
+
+
 }
