@@ -14,7 +14,9 @@ Some preconditions are taken into account that is not met in requirements:
 - Email validation performed by jakarta.validation.constraints.Email;
 - Email is not unique as it is not required to be unique in requirements;
 - All text fields has some length in order to not exceed database restrictions; 
-- Optional fields also have some validation (e.g. phone, zipcode).
+- Optional fields also have some validation (e.g. phone, zipcode);
+- Request for users by birthdate range returns partial information about users, 
+but contains links to get the complete information separately for each user.
 
 
 ### CI

@@ -1,6 +1,6 @@
 package com.havryliuk.test.users.advice;
 
-import com.havryliuk.test.users.dto.response.GeneralErrorResponse;
+import com.havryliuk.test.users.dto.response.errors.GeneralErrorResponse;
 import com.havryliuk.test.users.exception.DetailsResponseException;
 import com.havryliuk.test.users.util.ResponseUtil;
 import jakarta.validation.ValidationException;
@@ -50,19 +50,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<GeneralErrorResponse> handleValidationExceptionExceptions(ValidationException ex,
                                                                                     WebRequest request) {
-        log.info(ex.getCause().getMessage());
         if (ex.getCause() instanceof DetailsResponseException) {
+            log.info(ex.getCause().getMessage());
             return handleUserRegistrationRestrictionExceptions((DetailsResponseException)ex.getCause(), request);
+        } else {
+            return handleAllExceptions(ex, request);
         }
-        GeneralErrorResponse errorResponse = ResponseUtil.generateResponse(ex.getMessage(), HttpStatus.BAD_REQUEST, request);
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
-
-
 
     @ExceptionHandler(DetailsResponseException.class)
     public ResponseEntity<GeneralErrorResponse>
-            handleUserRegistrationRestrictionExceptions(DetailsResponseException ex, WebRequest request) {
+    handleUserRegistrationRestrictionExceptions(DetailsResponseException ex, WebRequest request) {
         log.info(ex.getMessage());
         HttpStatusCode statusCode = ex.getStatusCode();
         GeneralErrorResponse errorResponse = ResponseUtil.generateResponse(ex, statusCode, request);

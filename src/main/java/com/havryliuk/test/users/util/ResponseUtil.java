@@ -1,12 +1,11 @@
 package com.havryliuk.test.users.util;
 
-import com.havryliuk.test.users.dto.response.ErrorResponseDetail;
-import com.havryliuk.test.users.dto.response.GeneralErrorResponse;
+import com.havryliuk.test.users.dto.response.errors.ErrorResponseDetail;
+import com.havryliuk.test.users.dto.response.errors.GeneralErrorResponse;
 import com.havryliuk.test.users.exception.DetailsResponseException;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
-import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.Instant;
@@ -23,7 +22,7 @@ public class ResponseUtil {//todo use strategy
                 .details(List.of(ErrorResponseDetail.builder()
                         .message(message)
                         .build()))
-                .instance(((ServletWebRequest) request).getRequest().getRequestURI())
+                .instance(URIResolver.getWithParameters(request))
                 .build();
     }
 
@@ -34,7 +33,7 @@ public class ResponseUtil {//todo use strategy
                 .statusCode(status.value())
                 .title(HttpReasonResolver.getReasonPhrase(status.value()))
                 .details(addDetails(ex))
-                .instance(((ServletWebRequest)request).getRequest().getRequestURI())
+                .instance(URIResolver.getWithParameters(request))
                 .build();
     }
 
@@ -45,7 +44,7 @@ public class ResponseUtil {//todo use strategy
                 .statusCode(status.value())
                 .title(HttpReasonResolver.getReasonPhrase(status.value()))
                 .details(addDetails(ex))
-                .instance(((ServletWebRequest)request).getRequest().getRequestURI())
+                .instance(URIResolver.getWithParameters(request))
                 .build();
     }
 

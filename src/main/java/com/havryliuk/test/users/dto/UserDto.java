@@ -1,4 +1,4 @@
-package com.havryliuk.test.users.dto.request;
+package com.havryliuk.test.users.dto;
 
 import com.havryliuk.test.users.model.Address;
 import com.havryliuk.test.users.valitator.groups.FieldsRequired;
@@ -10,7 +10,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -26,35 +29,38 @@ import static com.havryliuk.test.users.util.GlobalConstants.PROPERTY_REQUIRED;
 import static com.havryliuk.test.users.util.GlobalConstants.INCORRECT_PHONE_NUMBER;
 import static com.havryliuk.test.users.util.GlobalConstants.PHONE_PATTERN;
 
-@Builder
-public record UserDto (
+@Getter
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+public sealed class UserDto permits UserDtoResponse {
 
     @NotNull(message = PROPERTY_REQUIRED, groups = {FieldsRequired.class})
     @Email(message = NOT_VALID_EMAIL, groups = {FieldsRequired.class, OptionalFields.class})
     @Schema(example = EMAIL)
-    String email,
+    private String email;
 
     @NotNull(message = PROPERTY_REQUIRED, groups = FieldsRequired.class)
     @Size(max = 32, message = LONG_PROPERTY_32, groups = {FieldsRequired.class, OptionalFields.class})
     @Schema(example = FIRST_NAME)
-    String firstName,
+    private String firstName;
 
     @NotNull(message = PROPERTY_REQUIRED, groups = FieldsRequired.class)
     @Size(max = 32, message = LONG_PROPERTY_32, groups = {FieldsRequired.class, OptionalFields.class})
     @Schema(example = LAST_NAME)
-    String lastName,
+    private String lastName;
 
     @NotNull(message = PROPERTY_REQUIRED, groups = FieldsRequired.class)
     @ValidAge(groups = {FieldsRequired.class, OptionalFields.class})
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Schema(example = BIRTH_DATE)
-    LocalDate birthDate,
+    private LocalDate birthDate;
 
     @Pattern(regexp = PHONE_PATTERN, message = INCORRECT_PHONE_NUMBER, groups = {FieldsRequired.class, OptionalFields.class})
     @Schema(example = PHONE_NUMBER)
-    String phoneNumber,
+    private String phoneNumber;
 
     @Valid
-    Address address
+    private Address address;
 
-){}
+}

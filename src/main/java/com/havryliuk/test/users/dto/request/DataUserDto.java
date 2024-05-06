@@ -1,5 +1,6 @@
 package com.havryliuk.test.users.dto.request;
 
+import com.havryliuk.test.users.dto.UserDto;
 import com.havryliuk.test.users.valitator.groups.FieldsRequired;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

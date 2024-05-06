@@ -1,4 +1,4 @@
-package com.havryliuk.test.users.dto.response;
+package com.havryliuk.test.users.dto.response.errors;
 
 import lombok.Builder;
 import lombok.With;
