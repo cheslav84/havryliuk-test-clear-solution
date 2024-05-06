@@ -223,22 +223,15 @@ class UserControllerUnitTest {
         verify(service, never()).updateWhole(eq(ID), any(DataUserDto.class));
     }
 
-
     @Test
-    void whenDeleteUser_thenReturnResponseOk() throws Exception {
-        doNothing().when(service).delete(eq(ID));
+    void whenReplaceUser_thenReturnResponseNotFound() throws Exception {
+        DataUserDto dto = DtoCreator.createValidUserDtoWithAllData();
 
-        mockMvc.perform(delete(String.format(USERS_URL_ID, ID)))
-                .andExpect(status().isOk());
+        doThrow(new NotFoundException(USER_FIELD)).when(service).updateWhole(eq(ID), any(DataUserDto.class));
 
-        verify(service, times(1)).delete(eq(ID));
-    }
-
-    @Test
-    void whenDeleteUser_thenReturnResponseNotFound() throws Exception {
-        doThrow(new NotFoundException(USER_FIELD)).when(service).delete(eq(ID));
-
-        mockMvc.perform(delete(String.format(USERS_URL_ID, ID)))
+        mockMvc.perform(put(String.format(USERS_URL_ID, ID))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonConverter.toString(dto)))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.timestamp", is(notNullValue())))
                 .andExpect(jsonPath("$.title", is(HttpReasonResolver.getReasonPhrase(404))))
@@ -249,6 +242,16 @@ class UserControllerUnitTest {
                 .andExpect(jsonPath("$.details[*].property", hasItems(USER_FIELD)))
                 .andExpect(jsonPath("$.details[*].cause", hasItems(DATA_NOT_FOUND)))
                 .andExpect(jsonPath("$.details[*].message", hasItems(new String[]{})));
+
+        verify(service, times(1)).updateWhole(eq(ID), any(DataUserDto.class));
+    }
+
+    @Test
+    void whenDeleteUser_thenReturnResponseOk() throws Exception {
+        doNothing().when(service).delete(eq(ID));
+
+        mockMvc.perform(delete(String.format(USERS_URL_ID, ID)))
+                .andExpect(status().isOk());
 
         verify(service, times(1)).delete(eq(ID));
     }

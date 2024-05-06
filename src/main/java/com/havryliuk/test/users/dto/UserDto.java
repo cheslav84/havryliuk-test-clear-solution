@@ -1,5 +1,6 @@
 package com.havryliuk.test.users.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.havryliuk.test.users.model.Address;
 import com.havryliuk.test.users.valitator.groups.FieldsRequired;
 import com.havryliuk.test.users.valitator.ValidAge;
@@ -57,10 +58,12 @@ public sealed class UserDto permits UserDtoResponse {
     private LocalDate birthDate;
 
     @Pattern(regexp = PHONE_PATTERN, message = INCORRECT_PHONE_NUMBER, groups = {FieldsRequired.class, OptionalFields.class})
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @Schema(example = PHONE_NUMBER)
     private String phoneNumber;
 
     @Valid
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Address address;
 
 }

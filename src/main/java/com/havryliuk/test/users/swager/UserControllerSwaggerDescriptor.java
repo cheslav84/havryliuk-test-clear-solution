@@ -141,9 +141,6 @@ public interface UserControllerSwaggerDescriptor {
     @Operation(summary = "Delete user by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = OK),
-            @ApiResponse(responseCode = "404", description = NOT_FOUND,
-                    content = @Content(schema = @Schema(implementation = GeneralErrorResponse.class),
-                            examples = @ExampleObject(name = USER_NOT_FOUND, value = USER_NOT_FOUND_RESPONSE_ID))),
             @ApiResponse(responseCode = "500", description = SERVER_ERROR,
                     content = @Content(schema = @Schema(implementation = GeneralErrorResponse.class),
                             examples = {@ExampleObject(name = SERVER_ERROR, value = SERVER_ERROR_RESPONSE_ID)

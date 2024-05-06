@@ -18,8 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import java.time.LocalDate;
+import java.util.UUID;
 
 import static com.havryliuk.test.users.util.GlobalConstants.BIRTH_DATE_FIELD;
 import static com.havryliuk.test.users.util.GlobalConstants.USER_FIELD;
@@ -33,27 +32,31 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public String create(DataUserDto userDto) {
-        User user = UserMapper.toUser(userDto.data());
+        User user = UserMapper.toUser(UUID.randomUUID().toString(), userDto.data());
         repository.save(user);
         return user.getId();
     }
 
     @Override
     @Transactional
-    public void updateFields(String id, DataUserDto user) {
+    public void updateFields(String id, DataUserDto userDto) {
+        User user = repository.findById(id).orElseThrow(() -> new NotFoundException(USER_FIELD));
+        UserMapper.patchUser(user, userDto.data());
 
     }
 
     @Override
     @Transactional
-    public void updateWhole(String id, DataUserDto user) {
-
+    public void updateWhole(String id, DataUserDto userDto) {
+        User user = repository.findById(id).orElseThrow(() -> new NotFoundException(USER_FIELD));
+        user = UserMapper.toUser(user.getId(), userDto.data());
+        repository.save(user);
     }
 
     @Override
     @Transactional
     public void delete(String id) {
-
+        repository.deleteById(id);
     }
 
     @Override
