@@ -1,9 +1,9 @@
 package com.havryliuk.test.users.service;
 
+import com.havryliuk.test.users.dto.UserDtoResponse;
 import com.havryliuk.test.users.dto.request.BirthdayRangeDto;
 import com.havryliuk.test.users.dto.request.DataUserDto;
 import com.havryliuk.test.users.dto.response.DataUsersDto;
-import com.havryliuk.test.users.dto.response.UserDtoResponse;
 
 public interface UserService {
     String create(DataUserDto user);

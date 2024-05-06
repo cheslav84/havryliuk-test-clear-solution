@@ -1,9 +1,9 @@
 package com.havryliuk.test.users.service.impl;
 
+import com.havryliuk.test.users.dto.UserDtoResponse;
 import com.havryliuk.test.users.dto.request.BirthdayRangeDto;
 import com.havryliuk.test.users.dto.request.DataUserDto;
 import com.havryliuk.test.users.dto.response.DataUsersDto;
-import com.havryliuk.test.users.dto.response.UserDtoResponse;
 import com.havryliuk.test.users.repository.UserRepository;
 import com.havryliuk.test.users.service.UserService;
 import lombok.RequiredArgsConstructor;

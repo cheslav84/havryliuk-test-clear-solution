@@ -1,4 +1,5 @@
 package com.havryliuk.test.users.swager;
+import com.havryliuk.test.users.dto.UserDtoResponse;
 import com.havryliuk.test.users.dto.request.BirthdayRangeDto;
 import com.havryliuk.test.users.dto.request.DataUserDto;
 import com.havryliuk.test.users.dto.response.DataUsersDto;
@@ -54,7 +55,7 @@ public interface UserControllerSwaggerDescriptor {
 
     @SuppressWarnings("unused")
     @Tag(name = TAG_USER)
-    @Operation(summary = "Creation new user")
+    @Operation(summary = "Create new user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = CREATED, headers = {@Header(name = LOCATION_HEADER,
                     description = USER_CREATED_HEADER_DESCRIPTION)}
@@ -81,7 +82,7 @@ public interface UserControllerSwaggerDescriptor {
 
     @SuppressWarnings("unused")
     @Tag(name = TAG_USER)
-    @Operation(summary = "Updating user data")
+    @Operation(summary = "Update user data")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = OK),
             @ApiResponse(responseCode = "400", description = BAD_REQUEST,
@@ -136,14 +137,9 @@ public interface UserControllerSwaggerDescriptor {
 
     @SuppressWarnings("unused")
     @Tag(name = TAG_USER)
-    @Operation(summary = "Delete")
+    @Operation(summary = "Delete user by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = OK),
-            @ApiResponse(responseCode = "400", description = BAD_REQUEST,
-                    content = @Content(schema = @Schema(implementation = GeneralErrorResponse.class),
-                            examples = {
-                                    @ExampleObject(name = INCORRECT_DATA, value = INCORRECT_DATA_RESPONSE_ID)
-                            })),
             @ApiResponse(responseCode = "404", description = NOT_FOUND,
                     content = @Content(schema = @Schema(implementation = GeneralErrorResponse.class),
                             examples = @ExampleObject(name = USER_NOT_FOUND, value = USER_NOT_FOUND_RESPONSE_ID))),
@@ -156,7 +152,7 @@ public interface UserControllerSwaggerDescriptor {
 
     @SuppressWarnings("unused")
     @Tag(name = TAG_USER)
-    @Operation(summary = "Searching users by birth date range")
+    @Operation(summary = "Find users by birth date range")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = OK,
                     content = @Content(schema = @Schema(implementation = DataUsersDto.class))),
@@ -173,5 +169,23 @@ public interface UserControllerSwaggerDescriptor {
     })
     DataUsersDto findUsersByBirthdateRange(@ParameterObject BirthdayRangeDto range,
                                            @RequestParam Integer number, @RequestParam Integer size);
+
+
+
+    @SuppressWarnings("unused")
+    @Tag(name = TAG_USER)
+    @Operation(summary = "Find user by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = OK,
+                    content = @Content(schema = @Schema(implementation = UserDtoResponse.class))),
+            @ApiResponse(responseCode = "404", description = NOT_FOUND,
+                    content = @Content(schema = @Schema(implementation = GeneralErrorResponse.class),
+                            examples = @ExampleObject(name = USER_NOT_FOUND, value = USER_NOT_FOUND_RESPONSE_ID))),
+            @ApiResponse(responseCode = "500", description = SERVER_ERROR,
+                    content = @Content(schema = @Schema(implementation = GeneralErrorResponse.class),
+                            examples = {@ExampleObject(name = SERVER_ERROR, value = SERVER_ERROR_RESPONSE_ID)
+                            }))
+    })
+    UserDtoResponse findUsersById(@PathVariable String id);
 
 }

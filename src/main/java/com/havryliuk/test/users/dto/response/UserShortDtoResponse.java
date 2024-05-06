@@ -14,7 +14,7 @@ import static com.havryliuk.test.users.util.GlobalConstants.UUID_EXAMPLE;
 
 
 @Builder
-public record UserDtoResponse (
+public record UserShortDtoResponse(
     @Schema(example = UUID_EXAMPLE)
     String id,
     @Schema(example = EMAIL)

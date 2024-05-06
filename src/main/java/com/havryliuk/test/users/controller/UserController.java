@@ -1,5 +1,6 @@
 package com.havryliuk.test.users.controller;
 
+import com.havryliuk.test.users.dto.UserDtoResponse;
 import com.havryliuk.test.users.dto.request.BirthdayRangeDto;
 import com.havryliuk.test.users.dto.request.DataUserDto;
 import com.havryliuk.test.users.dto.response.DataUsersDto;
@@ -71,7 +72,7 @@ public class UserController implements UserControllerSwaggerDescriptor {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteUser(@PathVariable String id) {
-        log.info("PUT {}", String.format(USERS_URL_ID, id));
+        log.info("DELETE {}", String.format(USERS_URL_ID, id));
         userService.delete(id);
     }
 
@@ -86,6 +87,14 @@ public class UserController implements UserControllerSwaggerDescriptor {
         log.info("GET {}", String.format(USERS_URL_BIRTHDATE_RANGE, birthDateRange.birthDateFrom(), birthDateRange.birthDateTo()));
         return userService.find(birthDateRange, number, size);
 
+    }
+
+    @Override
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDtoResponse findUsersById(@PathVariable String id) {
+        log.info("GET {}", String.format(USERS_URL_ID, id));
+        return userService.find(id);
     }
 
 }

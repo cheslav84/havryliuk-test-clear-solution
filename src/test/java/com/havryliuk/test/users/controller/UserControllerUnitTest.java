@@ -1,5 +1,6 @@
 package com.havryliuk.test.users.controller;
 
+import com.havryliuk.test.users.dto.UserDtoResponse;
 import com.havryliuk.test.users.dto.request.BirthdayRangeDto;
 import com.havryliuk.test.users.dto.request.DataUserDto;
 import com.havryliuk.test.users.dto.response.DataUsersDto;
@@ -309,5 +310,35 @@ class UserControllerUnitTest {
     }
 
 
+    @Test
+    void whenFindUsersById_thenReturnUserDto() throws Exception {
+        String id = UUID.randomUUID().toString();
+        UserDtoResponse user = DtoCreator.createUserDto(id);
 
+        when(service.find(eq(id))).thenReturn(user);
+
+        mockMvc.perform(get(String.format(USERS_URL_ID, id)))
+                .andExpect(status().isOk());
+
+        verify(service, times(1)).find(id);
+    }
+
+    @Test
+    void whenFindUsersById_thenReturnResponseNotFound() throws Exception {
+        doThrow(new NotFoundException(USER_FIELD)).when(service).find(eq(ID));
+
+        mockMvc.perform(get(String.format(USERS_URL_ID, ID)))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.timestamp", is(notNullValue())))
+                .andExpect(jsonPath("$.title", is(HttpReasonResolver.getReasonPhrase(404))))
+                .andExpect(jsonPath("$.statusCode", is(404)))
+                .andExpect(jsonPath("$.instance", is(String.format(USERS_URL_ID, ID))))
+                .andExpect(jsonPath("$.details").isArray())
+                .andExpect(jsonPath("$.details", hasSize(1)))
+                .andExpect(jsonPath("$.details[*].property", hasItems(USER_FIELD)))
+                .andExpect(jsonPath("$.details[*].cause", hasItems(DATA_NOT_FOUND)))
+                .andExpect(jsonPath("$.details[*].message", hasItems(new String[]{})));
+
+        verify(service, times(1)).find(eq(ID));
+    }
 }

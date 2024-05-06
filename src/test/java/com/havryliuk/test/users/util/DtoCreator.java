@@ -1,10 +1,11 @@
 package com.havryliuk.test.users.util;
 
+import com.havryliuk.test.users.dto.UserDtoResponse;
 import com.havryliuk.test.users.dto.request.BirthdayRangeDto;
 import com.havryliuk.test.users.dto.request.DataUserDto;
-import com.havryliuk.test.users.dto.request.UserDto;
+import com.havryliuk.test.users.dto.UserDto;
 import com.havryliuk.test.users.dto.response.DataUsersDto;
-import com.havryliuk.test.users.dto.response.UserDtoResponse;
+import com.havryliuk.test.users.dto.response.UserShortDtoResponse;
 import com.havryliuk.test.users.model.Address;
 import org.hibernate.query.Page;
 
@@ -149,7 +150,7 @@ public class DtoCreator {
                 .build();
     }
 
-    private static List<UserDtoResponse> createUserDtoResponseList() {
+    private static List<UserShortDtoResponse> createUserDtoResponseList() {
         LocalDate firstDate = LocalDate.of(1999, 4, 5);
         LocalDate secondDate = LocalDate.of(2002, 5, 7);
         return List.of(
@@ -158,8 +159,8 @@ public class DtoCreator {
         );
     }
 
-    public static UserDtoResponse createDataUsersDto(String id, int number, LocalDate date) {
-        return UserDtoResponse.builder()
+    public static UserShortDtoResponse createDataUsersDto(String id, int number, LocalDate date) {
+        return UserShortDtoResponse.builder()
                 .id(UUID.randomUUID().toString())
                 .email(EMAIL)
                 .firstName(FIRST_NAME + number)
@@ -169,4 +170,15 @@ public class DtoCreator {
                 .build();
     }
 
+    public static UserDtoResponse createUserDto(String id) {
+        return UserDtoResponse.builder()
+                .id(id)
+                .email(EMAIL)
+                .firstName(FIRST_NAME)
+                .lastName(LAST_NAME)
+                .birthDate(LocalDate.parse(BIRTH_DATE))
+                .phoneNumber(PHONE_NUMBER)
+                .address(createValidFullAddress())
+                .build();
+    }
 }

@@ -224,7 +224,7 @@ public class ErrorResponseConstants {
 
 
     /**
-     * User specific id error
+     * User birthdate range errors
      */
     public static final String NOT_COHERENT_DATES_RESPONSE =
             "{\n" +

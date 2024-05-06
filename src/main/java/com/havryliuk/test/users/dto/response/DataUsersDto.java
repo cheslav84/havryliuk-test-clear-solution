@@ -8,6 +8,6 @@ import java.util.List;
 
 @Builder
 public record DataUsersDto(
-        List<UserDtoResponse> data,
+        List<UserShortDtoResponse> data,
         Page page
 ) {}
