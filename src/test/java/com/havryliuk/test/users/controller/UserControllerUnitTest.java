@@ -3,7 +3,7 @@ package com.havryliuk.test.users.controller;
 import com.havryliuk.test.users.dto.UserDtoResponse;
 import com.havryliuk.test.users.dto.request.BirthdayRangeDto;
 import com.havryliuk.test.users.dto.request.DataUserDto;
-import com.havryliuk.test.users.dto.response.DataUsersDto;
+import com.havryliuk.test.users.dto.response.UserShortDtoResponse;
 import com.havryliuk.test.users.service.impl.UserServiceImpl;
 import com.havryliuk.test.users.util.DtoCreator;
 import com.havryliuk.test.users.util.HttpReasonResolver;
@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.MockBeans;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -222,22 +223,15 @@ class UserControllerUnitTest {
         verify(service, never()).updateWhole(eq(ID), any(DataUserDto.class));
     }
 
-
     @Test
-    void whenDeleteUser_thenReturnResponseOk() throws Exception {
-        doNothing().when(service).delete(eq(ID));
+    void whenReplaceUser_thenReturnResponseNotFound() throws Exception {
+        DataUserDto dto = DtoCreator.createValidUserDtoWithAllData();
 
-        mockMvc.perform(delete(String.format(USERS_URL_ID, ID)))
-                .andExpect(status().isOk());
+        doThrow(new NotFoundException(USER_FIELD)).when(service).updateWhole(eq(ID), any(DataUserDto.class));
 
-        verify(service, times(1)).delete(eq(ID));
-    }
-
-    @Test
-    void whenDeleteUser_thenReturnResponseNotFound() throws Exception {
-        doThrow(new NotFoundException(USER_FIELD)).when(service).delete(eq(ID));
-
-        mockMvc.perform(delete(String.format(USERS_URL_ID, ID)))
+        mockMvc.perform(put(String.format(USERS_URL_ID, ID))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonConverter.toString(dto)))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.timestamp", is(notNullValue())))
                 .andExpect(jsonPath("$.title", is(HttpReasonResolver.getReasonPhrase(404))))
@@ -248,6 +242,16 @@ class UserControllerUnitTest {
                 .andExpect(jsonPath("$.details[*].property", hasItems(USER_FIELD)))
                 .andExpect(jsonPath("$.details[*].cause", hasItems(DATA_NOT_FOUND)))
                 .andExpect(jsonPath("$.details[*].message", hasItems(new String[]{})));
+
+        verify(service, times(1)).updateWhole(eq(ID), any(DataUserDto.class));
+    }
+
+    @Test
+    void whenDeleteUser_thenReturnResponseOk() throws Exception {
+        doNothing().when(service).delete(eq(ID));
+
+        mockMvc.perform(delete(String.format(USERS_URL_ID, ID)))
+                .andExpect(status().isOk());
 
         verify(service, times(1)).delete(eq(ID));
     }
@@ -274,20 +278,17 @@ class UserControllerUnitTest {
 
     @Test
     void whenFindUsersByBirthdateRange_thenReturnBirthdayRangeDto() throws Exception {
-        int number = 1;
-        int sizeRequested = 5;
-        int sizeActual = 2;
-        DataUsersDto users = DtoCreator.createDataUsersDto(sizeActual, number);
+        Page<UserShortDtoResponse> users = DtoCreator.createPageOfUsers();
         BirthdayRangeDto dto = DtoCreator.createBirthdayRangeDto();
         LocalDate from = dto.birthDateFrom();
         LocalDate to = dto.birthDateTo();
 
-        when(service.find(dto, number, sizeRequested)).thenReturn(users);
+        when(service.find(dto, 0, 5)).thenReturn(users);
 
         mockMvc.perform(get(String.format(USERS_URL_BIRTHDATE_RANGE, from, to)))
                 .andExpect(status().isOk());
 
-        verify(service, times(1)).find(dto, number, sizeRequested);
+        verify(service, times(1)).find(dto, 0, 5);
     }
 
     @Test

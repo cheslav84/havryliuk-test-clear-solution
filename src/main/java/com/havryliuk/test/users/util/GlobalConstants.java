@@ -83,4 +83,9 @@ public class GlobalConstants {
     public static final String ERROR_PROPERTY = "%property";
     public static final String INCORRECT_JSON = "JSON parse error";
     public static final String SERVER_ERROR_MESSAGE = "Something went wrong. Please try again later.";
+
+    /**
+     * Testing values
+     */
+    public static final String TESTING_UUID = "1c619f9a-8a2a-4d56-8063-ac96cab16cac";
 }

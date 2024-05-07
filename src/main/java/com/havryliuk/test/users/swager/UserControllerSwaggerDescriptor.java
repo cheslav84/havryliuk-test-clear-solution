@@ -2,7 +2,7 @@ package com.havryliuk.test.users.swager;
 import com.havryliuk.test.users.dto.UserDtoResponse;
 import com.havryliuk.test.users.dto.request.BirthdayRangeDto;
 import com.havryliuk.test.users.dto.request.DataUserDto;
-import com.havryliuk.test.users.dto.response.DataUsersDto;
+import com.havryliuk.test.users.dto.response.UserShortDtoResponse;
 import com.havryliuk.test.users.dto.response.errors.GeneralErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -140,9 +141,6 @@ public interface UserControllerSwaggerDescriptor {
     @Operation(summary = "Delete user by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = OK),
-            @ApiResponse(responseCode = "404", description = NOT_FOUND,
-                    content = @Content(schema = @Schema(implementation = GeneralErrorResponse.class),
-                            examples = @ExampleObject(name = USER_NOT_FOUND, value = USER_NOT_FOUND_RESPONSE_ID))),
             @ApiResponse(responseCode = "500", description = SERVER_ERROR,
                     content = @Content(schema = @Schema(implementation = GeneralErrorResponse.class),
                             examples = {@ExampleObject(name = SERVER_ERROR, value = SERVER_ERROR_RESPONSE_ID)
@@ -155,7 +153,7 @@ public interface UserControllerSwaggerDescriptor {
     @Operation(summary = "Find users by birth date range")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = OK,
-                    content = @Content(schema = @Schema(implementation = DataUsersDto.class))),
+                    content = @Content(schema = @Schema(implementation = PaginationSchema.class))),
             @ApiResponse(responseCode = "400", description = BAD_REQUEST,
                     content = @Content(schema = @Schema(implementation = GeneralErrorResponse.class),
                             examples = {
@@ -167,8 +165,8 @@ public interface UserControllerSwaggerDescriptor {
                             examples = {@ExampleObject(name = SERVER_ERROR, value = SERVER_ERROR_RESPONSE_ID)
                             }))
     })
-    DataUsersDto findUsersByBirthdateRange(@ParameterObject BirthdayRangeDto range,
-                                           @RequestParam Integer number, @RequestParam Integer size);
+    Page<UserShortDtoResponse> findUsersByBirthdateRange(@ParameterObject BirthdayRangeDto range,
+                                                         @RequestParam Integer number, @RequestParam Integer size);
 
 
 
