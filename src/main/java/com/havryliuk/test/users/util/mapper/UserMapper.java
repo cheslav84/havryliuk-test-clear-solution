@@ -20,27 +20,48 @@ public class UserMapper {
                 .build();
     }
 
-    public static void patchUser(User user, UserDto data) {
+    public static void updateUser(User user, UserDto data, boolean updateNullableFields) {
         if (data == null) {
             return;
         }
-        updateIfPresent(user::setEmail, data.getEmail());
-        updateIfPresent(user::setFirstName, data.getFirstName());
-        updateIfPresent(user::setLastName, data.getLastName());
-        updateIfPresent(user::setPhoneNumber, data.getPhoneNumber());
-        patchAddress(user.getAddress(), data.getAddress());
+        update(user::setEmail, data.getEmail(), updateNullableFields);
+        update(user::setFirstName, data.getFirstName(), updateNullableFields);
+        update(user::setLastName, data.getLastName(), updateNullableFields);
+        update(user::setPhoneNumber, data.getPhoneNumber(), updateNullableFields);
+        updateAddress(user, data.getAddress(), updateNullableFields);
     }
 
-    private static void patchAddress(Address address, Address data) {
-        updateIfPresent(address::setCountry, data.getCountry());
-        updateIfPresent(address::setCity, data.getCity());
-        updateIfPresent(address::setStreet, data.getStreet());
-        updateIfPresent(address::setZipcode, data.getZipcode());
-
+    private static void updateAddress(User user, Address data, boolean updateNullableFields) {
+        if (updateNullableFields) {
+            user.setAddress(data);
+        } else {
+            if (data == null) {
+                return;
+            }
+            updateAddressFields(user, data);
+        }
     }
 
-    private static <T> void updateIfPresent(Consumer<T> consumer, T value){
-        if (value != null){
+    private static void updateAddressFields(User user, Address data) {
+        Address address = user.getAddress();
+        if (address == null) {
+            address = new Address();
+            user.setAddress(address);
+        }
+        update(address::setCountry, data.getCountry());
+        update(address::setCity, data.getCity());
+        update(address::setStreet, data.getStreet());
+        update(address::setZipcode, data.getZipcode());
+    }
+
+    private static <T> void update(Consumer<T> consumer, T value, boolean updateNullableFields) {
+        if (value != null || updateNullableFields) {
+            consumer.accept(value);
+        }
+    }
+
+    private static <T> void update(Consumer<T> consumer, T value) {
+        if (value != null) {
             consumer.accept(value);
         }
     }

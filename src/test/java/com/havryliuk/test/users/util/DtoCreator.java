@@ -14,26 +14,22 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.havryliuk.test.users.util.GlobalConstants.BIRTH_DATE;
-import static com.havryliuk.test.users.util.GlobalConstants.CITY;
-import static com.havryliuk.test.users.util.GlobalConstants.COUNTRY;
 import static com.havryliuk.test.users.util.GlobalConstants.EMAIL;
 import static com.havryliuk.test.users.util.GlobalConstants.FIRST_NAME;
 import static com.havryliuk.test.users.util.GlobalConstants.LAST_NAME;
 import static com.havryliuk.test.users.util.GlobalConstants.PHONE_NUMBER;
-import static com.havryliuk.test.users.util.GlobalConstants.STREET;
-import static com.havryliuk.test.users.util.GlobalConstants.ZEEP_CODE;
 
 public class DtoCreator {
 
     public static DataUserDto createValidUserDtoWithAllData() {
-        Address address = createValidFullAddress();
+        Address address = DataCreator.createValidFullAddress();
         return DataUserDto.builder()
                 .data(createValidUserDto(address, PHONE_NUMBER))
                 .build();
     }
 
     public static DataUserDto createValidUserDtoWithoutPhone() {
-        Address address = createValidFullAddress();
+        Address address = DataCreator.createValidFullAddress();
         return DataUserDto.builder()
                 .data(createValidUserDto(address, null))
                 .build();
@@ -46,14 +42,14 @@ public class DtoCreator {
     }
 
     public static DataUserDto createValidUserDtoAddressWithoutCountry() {
-        Address address = createValidAddressWithoutCountry();
+        Address address = DataCreator.createValidAddressWithoutCountry();
         return DataUserDto.builder()
                 .data(createValidUserDto(address, PHONE_NUMBER))
                 .build();
     }
 
     public static DataUserDto createValidUserDtoWithOnlyRequiredFields() {
-        Address address = createValidAddressWithoutCountry();
+        Address address = DataCreator.createValidAddressWithoutCountry();
         return DataUserDto.builder()
                 .data(createValidUserDto(address, null))
                 .build();
@@ -69,24 +65,6 @@ public class DtoCreator {
                 .address(address)
                 .build();
     }
-
-    private static Address createValidFullAddress() {
-        return Address.builder()
-                .country(COUNTRY)
-                .city(CITY)
-                .street(STREET)
-                .zipcode(ZEEP_CODE)
-                .build();
-    }
-
-    private static Address createValidAddressWithoutCountry() {
-        return Address.builder()
-                .city(CITY)
-                .street(STREET)
-                .zipcode(ZEEP_CODE)
-                .build();
-    }
-
 
     public static DataUserDto createUserDtoWithEmptyData() {
         return DataUserDto.builder()
@@ -171,7 +149,18 @@ public class DtoCreator {
                 .lastName(LAST_NAME)
                 .birthDate(LocalDate.parse(BIRTH_DATE))
                 .phoneNumber(PHONE_NUMBER)
-                .address(createValidFullAddress())
+                .address(DataCreator.createValidFullAddress())
+                .build();
+    }
+
+    public static DataUserDto createUserDtoWithLastNameAndAddressCounty(String lastName, String country) {
+        Address address = Address.builder().country(country).build();
+        return DataUserDto.builder()
+                .data(UserDto.builder()
+                        .lastName(lastName)
+                        .address(address)
+                        .build()
+                )
                 .build();
     }
 }

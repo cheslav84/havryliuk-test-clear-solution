@@ -41,16 +41,16 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateFields(String id, DataUserDto userDto) {
         User user = repository.findById(id).orElseThrow(() -> new NotFoundException(USER_FIELD));
-        UserMapper.patchUser(user, userDto.data());
-
+        boolean updateNullableFields = false;
+        UserMapper.updateUser(user, userDto.data(), updateNullableFields);
     }
 
     @Override
     @Transactional
     public void updateWhole(String id, DataUserDto userDto) {
         User user = repository.findById(id).orElseThrow(() -> new NotFoundException(USER_FIELD));
-        user = UserMapper.toUser(user.getId(), userDto.data());
-        repository.save(user);
+        boolean updateNullableFields = true;
+        UserMapper.updateUser(user, userDto.data(), updateNullableFields);
     }
 
     @Override
