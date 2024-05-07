@@ -39,5 +39,6 @@ jobs:
       with:
         image: chlav/havryliuk-test-clear-solution
         registry: docker.io
+        tags: version-1.0-SNAPSHOT
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
