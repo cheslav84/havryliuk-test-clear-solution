@@ -15,14 +15,6 @@ version: '1.0'
 #version: '2'
 
 services:
-  app:
-    build: .
-    image: chlav/havryliuk-test-clear-solution:latest
-    ports:
-      - 8080:8080
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=prod
-    container_name: havryliuk-test-clear-solution
   postgres:
     image: postgres:15
     ports:
@@ -36,3 +28,14 @@ services:
       PG_TRUST_LOCALNET: true
       PGHOST: localhost
     container_name: havryliuk-test-clear-solution
+
+  app:
+    build: .
+    image: chlav/havryliuk-test-clear-solution:latest
+    ports:
+      - 8080:8080
+    #    environment:
+    #      - SPRING_PROFILES_ACTIVE=prod
+    container_name: havryliuk-test-clear-solution
+    depends_on:
+      - postgres
