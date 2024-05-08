@@ -8,10 +8,10 @@ spring:
     name: havryliuk-test-clear-solution
   datasource:
     url: jdbc:postgresql://localhost:5432/users
-#    username: admin
-#    password: admin
+    username: admin
+    password: admin
   jpa:
-#    database: POSTGRESQL
+    database: POSTGRESQL
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate:
@@ -22,7 +22,3 @@ spring:
 ---
 constants:
   allowed-age-to-register: 18
----
-#server:
-#  title:
-#    include-detail: on_param
