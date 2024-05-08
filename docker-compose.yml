@@ -1,7 +1,6 @@
 version: '3'
 services:
   my-app:
-    container_name: havryliuk-clear-solution
     image: chlav/havryliuk-test-clear-solution:latest
     ports:
       - 8080:8080
