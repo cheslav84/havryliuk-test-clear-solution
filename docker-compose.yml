@@ -10,9 +10,10 @@ services:
       - MYAPP_JDBC_URL=jdbc:postgresql://app-db:5432/users
       - MYAPP_JDBC_USER=admin
       - MYAPP_JDBC_PASS=admin
-  db:
+  ps-db:
     image: postgres
     restart: always
+    hostname: ps-db
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
