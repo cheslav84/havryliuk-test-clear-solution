@@ -1,6 +1,6 @@
 version: '3'
 services:
-  users-app:
+  my-app:
     image: chlav/havryliuk-test-clear-solution:latest
     ports:
       - 8080:8080
