@@ -6,13 +6,13 @@ springdoc:
 spring:
   application:
     name: havryliuk-test-clear-solution
-  datasource:
-    url: jdbc:postgresql://localhost:5432/users
-    username: admin
-    password: admin
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/users
+#    username: admin
+#    password: admin
   jpa:
-    database: POSTGRESQL
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    database: POSTGRESQL
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate:
       ddl-auto: validate
