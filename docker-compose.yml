@@ -1,7 +1,9 @@
 version: '3'
-
 services:
-
+  users-app:
+    image: chlav/havryliuk-test-clear-solution:latest
+    ports:
+      - 8080:8080
   db:
     image: postgres
     restart: always
