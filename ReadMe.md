@@ -3,6 +3,10 @@
 ### Reference Documentation
 * [Swagger documentation](http://localhost:8080/swagger-ui/index.html)
 
+If there are any ports conflict with your local ports, replace the ports in docker-compose file: 
+for example, in case app ports conflicts change my-app.ports to 8081:8080, and in case postgres ports conflict
+change ps-db.ports to 5433:5432.
+If you have changed application port, don't forget also to change it in URL.
 
 ### Preconditions
 Age of user that is allowed to register is set in src/main/resources/config/application.yml file
