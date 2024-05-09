@@ -2,13 +2,38 @@ springdoc:
   api-docs:
     enabled: true
     path: /api-docs
+
+#spring:
+#  profiles:
+#    active: localhost
+---
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/users
+#    username: admin
+#    password: admin
+  config:
+    activate:
+      on-profile: localhost
+
+---
+spring:
+  datasource:
+    url: jdbc:postgresql://ps-db:5432/users
+#    username: admin
+#    password: admin
+  config:
+    activate:
+      on-profile: dev
+
 ---
 spring:
   application:
     name: havryliuk-test-clear-solution
   datasource:
 #    url: jdbc:postgresql://127.0.0.1:5432/users
-    url: jdbc:postgresql://ps-db:5432/users
+#    url: jdbc:postgresql://ps-db:5432/users
     username: admin
     password: admin
   jpa:
@@ -20,6 +45,10 @@ spring:
   flyway:
     locations: classpath:db/migration
     baseline-on-migrate: true
+  config:
+    activate:
+      on-profile: used-always-in-all-profiles
+
 ---
 constants:
   allowed-age-to-register: 18
