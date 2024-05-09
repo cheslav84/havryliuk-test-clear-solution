@@ -1,34 +1,98 @@
-# Getting Started
+## Tech stack
+- Backend
+  - Java 17
+  - Spring boot 3.2
+  - Flyway
+  - Docker
+- Database
+  - Postgresql
+- CI/CD
+   - GitHub actions
+- Repositories
+  - GitHub
+  - DockerHub
+- Documentation and Rest 
+  - Swagger
 
-### Reference Documentation
+## How to run
+There are two easy ways to start the application:
+1. By pulling the source code from GitHub and running it on IDE; 
+2. Or, if there is a docker installed in a computer, it is a simple way to run the app in a container 
+without downloading the source code.
+
+### Running on IDE
+In that case it is needed to create the ***'users'*** database. Using the current database connection run the script:
+```
+    create database users
+```
+And change the connection properties in following file:
+```
+    # src/main/resources/config/application.yml 
+
+    spring:
+      datasource:
+        url: jdbc:postgresql://localhost:yourport/users
+        username: yourusername
+        password: yourpassword
+      config:
+        activate:
+          on-profile: localhost
+```
+**Pay attention of changing properties on localhost profile!**
+
+### Running in docker container
+To run the application in a container, it is needed the following file 
+https://github.com/cheslav84/havryliuk-test-clear-solution/blob/master/Dockerfile to be executed. 
+Download the ***'docker-compose.yml'*** and run the container:
+- open a terminal in the ***'docker-compose.yml'*** file's directory.
+- execute the following command in the terminal:
+```
+  docker-compose up
+```
+By default, the port *8080* is used to communicate to the application, and the standard postgres *5432* port to rich 
+the database.  
+If any of these ports is in the conflict with your local ports, replace that port in ***'docker-compose.yml'*** file.
+For example, in the case of app port conflict change:
+``` 
+  my-app:
+    ports:
+      - 8081:8080
+```
+or, in the cases of database conflict set:
+```
+  ps-db:
+    ports:
+      - 5433:5432
+```
+
+## Interaction and documentation
+To see the documentation run the application and click the link:
 * [Swagger documentation](http://localhost:8080/swagger-ui/index.html)
 
-If there are any ports conflict with your local ports, replace the ports in docker-compose file: 
-for example, in case app ports conflicts change my-app.ports to 8081:8080, and in case postgres ports conflict
-change ps-db.ports to 5433:5432.
-If you have changed application port, don't forget also to change it in URL.
 
-### Preconditions
-Age of user that is allowed to register is set in src/main/resources/config/application.yml file
-(constants.allowed-age-to-register=18)
-Some preconditions are taken into account that is not met in requirements:
+## Preconditions to implementation
+Age of user that is allowed to register is set in properties file ***"src/main/resources/config/application.yml***
+```
+  constants:
+    allowed-age-to-register: 18
+```
+Some preconditions are taken into account that is not met in the requirements:
 - Each user has only one address;
-- Address contains of fields: country, city, street, zipCode;
-- There is no needs to find all users by address, so Address is embedded in User;
+- Address contains the fields: country, city, street, zipCode;
 - Email validation performed by jakarta.validation.constraints.Email;
 - Email is not unique as it is not required to be unique in requirements;
 - All text fields has some length in order to not exceed database restrictions; 
 - Optional fields also have some validation (e.g. phone, zipcode);
 - Request for users by birthdate range returns partial information about users, 
 but contains links to get the complete information separately for each user.
-- Security.... 
+- There is no  any Security considered in the project.
 
-### CI
-Simple CI is configured with GitHub Actions that builds app and runs application tests 
-(see havryliuk-test-clear-solution\.github\workflows\ci.yml).
+### CI/CD
+Simple CI/CI pipeline is configured with GitHub Actions that builds application, runs the unit tests and delivers 
+the app to DockerHub repository.
 
 
-### Java practical test assignment  
+## Requirements  
 The task has two parts:
 1. Using the resources listed below learn what is RESTful API and what are the best practices to implement it
 2. According to the requirements implement the RESTful API based on the web Spring Boot application: controller, responsible for the resource named Users.
