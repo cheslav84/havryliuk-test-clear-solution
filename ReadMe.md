@@ -41,8 +41,8 @@ And change the connection properties in following file:
 **Pay attention of changing properties on localhost profile!**
 
 ### Running in docker container
-To run the application in a container, it is needed the following file 
-https://github.com/cheslav84/havryliuk-test-clear-solution/blob/master/Dockerfile to be executed. 
+To run the application in a container, it is needed the following file
+https://github.com/cheslav84/havryliuk-test-clear-solution/blob/master/docker-compose.yml to be executed. 
 Download the ***'docker-compose.yml'*** and run the container:
 - open a terminal in the ***'docker-compose.yml'*** file's directory.
 - execute the following command in the terminal:
