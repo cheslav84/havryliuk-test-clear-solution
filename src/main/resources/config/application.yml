@@ -31,11 +31,6 @@ spring:
 spring:
   application:
     name: havryliuk-test-clear-solution
-#  datasource:
-#    url: jdbc:postgresql://127.0.0.1:5432/users
-#    url: jdbc:postgresql://ps-db:5432/users
-#    username: admin
-#    password: admin
   jpa:
     database: POSTGRESQL
     database-platform: org.hibernate.dialect.PostgreSQLDialect
