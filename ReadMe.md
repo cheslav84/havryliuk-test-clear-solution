@@ -11,7 +11,7 @@
 - Repositories
   - GitHub
   - DockerHub
-- Documentation and Rest 
+- Documentation and Rest communication
   - Swagger
 
 ## How to run
