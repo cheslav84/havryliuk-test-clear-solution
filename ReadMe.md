@@ -17,7 +17,7 @@ Some preconditions are taken into account that is not met in requirements:
 - Optional fields also have some validation (e.g. phone, zipcode);
 - Request for users by birthdate range returns partial information about users, 
 but contains links to get the complete information separately for each user.
-
+- Security.... 
 
 ### CI
 Simple CI is configured with GitHub Actions that builds app and runs application tests 
