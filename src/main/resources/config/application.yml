@@ -3,16 +3,16 @@ springdoc:
     enabled: true
     path: /api-docs
 
-#spring:
-#  profiles:
-#    active: localhost
+spring:
+  profiles:
+    active: localhost
 ---
 
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/users
-#    username: admin
-#    password: admin
+    username: admin
+    password: admin
   config:
     activate:
       on-profile: localhost
@@ -21,8 +21,8 @@ spring:
 spring:
   datasource:
     url: jdbc:postgresql://ps-db:5432/users
-#    username: admin
-#    password: admin
+    username: admin
+    password: admin
   config:
     activate:
       on-profile: dev
@@ -31,11 +31,11 @@ spring:
 spring:
   application:
     name: havryliuk-test-clear-solution
-  datasource:
+#  datasource:
 #    url: jdbc:postgresql://127.0.0.1:5432/users
 #    url: jdbc:postgresql://ps-db:5432/users
-    username: admin
-    password: admin
+#    username: admin
+#    password: admin
   jpa:
     database: POSTGRESQL
     database-platform: org.hibernate.dialect.PostgreSQLDialect
