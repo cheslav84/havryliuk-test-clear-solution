@@ -59,7 +59,7 @@ For example, in the case of app port conflict change:
     ports:
       - 8081:8080
 ```
-or, in the cases of database conflict set:
+or, in the case of database conflict set:
 ```
   ps-db:
     ports:
