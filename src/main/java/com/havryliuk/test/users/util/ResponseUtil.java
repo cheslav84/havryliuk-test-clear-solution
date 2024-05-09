@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ResponseUtil {//todo use strategy
+public class ResponseUtil {
 
     public static GeneralErrorResponse generateResponse(String message, HttpStatusCode status, WebRequest request) {
         return GeneralErrorResponse.builder()
