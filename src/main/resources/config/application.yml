@@ -20,8 +20,8 @@ spring:
 ---
 spring:
   datasource:
-    url: jdbc:postgresql://ps-db
-#    url: jdbc:postgresql://ps-db:5432/users
+#    url: jdbc:postgresql://ps-db
+    url: jdbc:postgresql://ps-db:5432/users
     username: admin
     password: admin
   config:
