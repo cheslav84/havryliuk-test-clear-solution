@@ -41,9 +41,10 @@ And change the connection properties in following file:
 **Pay attention of changing properties on localhost profile!**
 
 ### Running in docker container
-To run the application in a container, it is needed the following file 
-https://github.com/cheslav84/havryliuk-test-clear-solution/blob/master/Dockerfile to be executed. 
-Download the ***'docker-compose.yml'*** and run the container:
+To run the application in a container, it is needed the
+***[docker-compose.yml](https://github.com/cheslav84/havryliuk-test-clear-solution/blob/master/docker-compose.yml)*** 
+to be executed. 
+Download the file and run the container:
 - open a terminal in the ***'docker-compose.yml'*** file's directory.
 - execute the following command in the terminal:
 ```
@@ -58,7 +59,7 @@ For example, in the case of app port conflict change:
     ports:
       - 8081:8080
 ```
-or, in the cases of database conflict set:
+or, in the case of database conflict set:
 ```
   ps-db:
     ports:
